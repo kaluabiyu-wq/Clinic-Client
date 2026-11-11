@@ -5,7 +5,7 @@ import { WaitMinutesPipe } from '../../pipes/wait-minutes.pipe';
 @Component({
   selector: 'app-queue-card',
   standalone: true,
-  imports: [],
+  imports: [WaitMinutesPipe],
   templateUrl: './queue-card.component.html',
   styleUrl: './queue-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
