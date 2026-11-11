@@ -1,0 +1,96 @@
+<main class="room">
+  <header class="top">
+    <h1>Consultation room</h1>
+    @if (lastUpdated(); as updated) {
+      <p class="updated">Updated {{ updated | date: 'mediumTime' }}</p>
+    }
+  </header>
+
+  <section class="picker">
+    <label for="doctor">I am</label>
+    <select id="doctor" (change)="onDoctorChange($event)">
+      <option value="" [selected]="doctorId() === null">Select your name</option>
+      @for (d of doctors(); track d.id) {
+        <option [value]="d.id" [selected]="d.id === doctorId()">
+          {{ d.fullName }} ({{ d.specialty }})
+        </option>
+      }
+    </select>
+  </section>
+
+  @if (error(); as message) {
+    <p class="alert" role="alert">{{ message }}</p>
+  }
+
+  @if (offline()) {
+    <p class="alert" role="alert">
+      @if (room()) {
+        Connection problem. Showing the last known queue.
+      } @else {
+        Cannot load the room right now. Please try again.
+      }
+    </p>
+  }
+
+  @if (doctorId() === null) {
+    <p class="hint">Select your name to see your queue.</p>
+  } @else if (!loaded()) {
+    <p class="hint">Loading your queue…</p>
+  } @else if (room(); as r) {
+    <section class="current" aria-live="polite">
+      <h2>In consultation</h2>
+      @if (r.current; as c) {
+        <p class="number">{{ c.queueNumber }}</p>
+        <p class="name">{{ c.patientName }}</p>
+        @if (c.reason) {
+          <p class="reason">Reason: {{ c.reason }}</p>
+        }
+        <p class="meta">In consultation for {{ minutesSince(c.startedAt) }} min</p>
+
+        @if (confirmingComplete()) {
+          <p class="confirm">Finish this visit?</p>
+          <div class="row">
+            <button type="button" class="primary" [disabled]="busy()" (click)="complete()">
+              Yes, finish visit
+            </button>
+            <button type="button" class="secondary" [disabled]="busy()" (click)="cancelComplete()">
+              Cancel
+            </button>
+          </div>
+        } @else {
+          <button type="button" class="primary" [disabled]="busy()" (click)="askComplete()">
+            Finish visit
+          </button>
+        }
+      } @else {
+        <p class="none">No patient in consultation.</p>
+        <button type="button" class="primary" [disabled]="!canCallNext()" (click)="callNext()">
+          {{ busy() ? 'Calling…' : 'Call next patient' }}
+        </button>
+        @if (r.waiting.length === 0) {
+          <p class="hint">Nobody is waiting yet.</p>
+        }
+      }
+    </section>
+
+    <section class="waiting">
+      <h2>Waiting ({{ r.waiting.length }})</h2>
+      @if (r.waiting.length > 0) {
+        <ul>
+          @for (p of r.waiting; track p.appointmentId) {
+            <li>
+              <span class="q">{{ p.queueNumber }}</span>
+              <span class="who">
+                {{ p.patientName }}
+                @if (p.reason) {
+                  <small>{{ p.reason }}</small>
+                }
+              </span>
+              <span class="wait">{{ minutesSince(p.checkedInAt) }} min</span>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  }
+</main>

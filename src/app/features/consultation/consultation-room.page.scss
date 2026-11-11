@@ -1,0 +1,176 @@
+.room {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1rem;
+  color: #14212e;
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  h1 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+}
+
+.updated,
+.hint,
+.meta {
+  margin: 0.25rem 0;
+  color: #44525f;
+}
+
+.picker {
+  margin-bottom: 1rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+  }
+}
+
+select {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #5b6b7b;
+  border-radius: 8px;
+  font: inherit;
+
+  &:focus-visible {
+    outline: 3px solid #0b5cab;
+    outline-offset: 2px;
+  }
+}
+
+.alert {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #b42318;
+  border-radius: 8px;
+  background: #fef3f2;
+  color: #7a271a;
+}
+
+h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+.current {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: 16px;
+  background: #eef4fa;
+  text-align: center;
+}
+
+.number {
+  margin: 0;
+  font-size: clamp(3rem, 14vw, 5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: #0b5cab;
+}
+
+.name {
+  margin: 0.25rem 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.reason {
+  margin: 0.25rem 0;
+}
+
+.none {
+  margin: 0.5rem 0 1rem;
+  font-size: 1.1rem;
+}
+
+.confirm {
+  margin: 1rem 0 0.5rem;
+  font-weight: 600;
+}
+
+.row {
+  display: flex;
+  gap: 0.75rem;
+
+  button {
+    flex: 1;
+  }
+}
+
+.primary,
+.secondary {
+  width: 100%;
+  min-height: 52px;
+  margin-top: 0.75rem;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 3px solid #0b5cab;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+}
+
+.primary {
+  border: 0;
+  background: #0b5cab;
+  color: #fff;
+}
+
+.secondary {
+  border: 1px solid #0b5cab;
+  background: #fff;
+  color: #0b5cab;
+}
+
+.waiting ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.waiting li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #d5dde5;
+}
+
+.q {
+  min-width: 4rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0b5cab;
+}
+
+.who small {
+  display: block;
+  color: #44525f;
+}
+
+.wait {
+  color: #44525f;
+  white-space: nowrap;
+}
