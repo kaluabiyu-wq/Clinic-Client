@@ -1,0 +1,99 @@
+<main class="track">
+  <h1>Track my queue</h1>
+
+  <form class="lookup" [formGroup]="form" (ngSubmit)="start()" novalidate>
+    <label for="reference">Booking reference</label>
+    <input
+      id="reference"
+      type="text"
+      formControlName="reference"
+      placeholder="APT1006"
+      autocomplete="off"
+      autocapitalize="characters"
+    />
+    @if (form.controls.reference.touched && form.controls.reference.invalid) {
+      <p class="field-error">Enter your reference, e.g. APT1006.</p>
+    }
+    <button type="submit" class="primary">Check my place</button>
+  </form>
+
+  @if (notFound()) {
+    <p class="alert" role="alert">
+      We could not find that reference. Check it and try again, or ask at reception.
+    </p>
+  }
+
+  @if (offline()) {
+    <p class="alert" role="alert">
+      @if (info()) {
+        Connection problem. Showing the last known status.
+      } @else {
+        Cannot load your status right now. Please try again.
+      }
+    </p>
+  }
+
+  @if (searching()) {
+    <p class="hint">Looking up your booking…</p>
+  }
+
+  @if (info(); as t) {
+    <section class="result" aria-live="polite">
+      <p class="ref">{{ t.reference }} · {{ t.doctorName }}</p>
+
+      @switch (t.status) {
+        @case ('Booked') {
+          <h2>You are booked</h2>
+          <p>
+            You have not checked in yet. Please check in at reception to get your queue number.
+          </p>
+        }
+        @case ('Waiting') {
+          <h2>You are in the queue</h2>
+          <p class="label">Your queue number</p>
+          <p class="number">{{ t.queueNumber ?? '—' }}</p>
+          <dl>
+            <dt>People ahead of you</dt>
+            <dd>{{ t.peopleAhead ?? 0 }}</dd>
+            @if (t.estimatedWaitMinutes !== null && t.estimatedWaitMinutes !== undefined) {
+              <dt>Estimated wait</dt>
+              <dd>{{ waitLabel(t.estimatedWaitMinutes) }}</dd>
+            }
+            <dt>Now serving</dt>
+            <dd>{{ t.nowServing ?? '—' }}</dd>
+          </dl>
+        }
+        @case ('Serving') {
+          <h2>It is your turn</h2>
+          <p class="number">{{ t.queueNumber ?? '' }}</p>
+          <p>Please go to the consultation room now.</p>
+        }
+        @case ('Completed') {
+          <h2>Visit completed</h2>
+          <p>Thank you for visiting the clinic.</p>
+        }
+        @case ('Cancelled') {
+          <h2>Appointment cancelled</h2>
+          <p>This booking was cancelled. You can book a new appointment any time.</p>
+          <a class="secondary" routerLink="/book">Book again</a>
+        }
+        @case ('NoShow') {
+          <h2>Marked as missed</h2>
+          <p>You did not check in on time. Please book a new appointment or ask at reception.</p>
+          <a class="secondary" routerLink="/book">Book again</a>
+        }
+      }
+
+      <p class="updated">
+        @if (finished()) {
+          Final status.
+        } @else {
+          Updates every 10 seconds.
+        }
+        @if (lastUpdated(); as updated) {
+          Last checked {{ updated | date: 'mediumTime' }}.
+        }
+      </p>
+    </section>
+  }
+</main>

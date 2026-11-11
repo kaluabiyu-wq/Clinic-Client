@@ -1,3 +1,5 @@
+import { AppointmentStatus } from './appointment.models';
+
 /** One doctor's column on the public board. Never contains patient names. */
 export interface QueueBoardCard {
   doctorId: number;
@@ -15,4 +17,19 @@ export interface QueueBoardCard {
 export interface QueueBoard {
   generatedAt: string;
   cards: QueueBoardCard[];
+}
+
+/** Response of GET /queue/track/{reference} (public). Never contains the patient's name. */
+export interface TrackQueue {
+  reference: string;
+  doctorName: string;
+  status: AppointmentStatus;
+  /** Issued at check-in; null while status is "Booked" */
+  queueNumber: string | null;
+  /** People waiting before this patient; null unless status is "Waiting" */
+  peopleAhead: number | null;
+  /** Rounded to the nearest 5 minutes by the API (WaitEstimator) */
+  estimatedWaitMinutes: number | null;
+  /** Queue number the doctor is serving now */
+  nowServing: string | null;
 }

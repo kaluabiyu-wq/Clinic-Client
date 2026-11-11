@@ -20,7 +20,7 @@
   <p class="meta">
     <span>{{ card().waitingCount }} waiting</span>
     @if (card().estimatedWaitMinutes !== null) {
-      <span>Wait {{ card().estimatedWaitMinutes | waitMinutes }}</span>
+      <span>Wait {{ waitLabel() }}</span>
     }
   </p>
 </article>

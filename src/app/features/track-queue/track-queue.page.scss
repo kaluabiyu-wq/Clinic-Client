@@ -1,0 +1,147 @@
+.track {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 1rem;
+  color: #14212e;
+}
+
+h1 {
+  margin: 0 0 1rem;
+  font-size: 1.5rem;
+}
+
+.lookup {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin: 0 0 0.25rem;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 48px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #5b6b7b;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 1.25rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  &:focus-visible {
+    outline: 3px solid #0b5cab;
+    outline-offset: 2px;
+  }
+}
+
+.field-error {
+  margin: 0.25rem 0 0;
+  color: #b42318;
+  font-size: 0.9rem;
+}
+
+.primary,
+.secondary {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 0.75rem;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  line-height: 48px;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 3px solid #0b5cab;
+    outline-offset: 2px;
+  }
+}
+
+.primary {
+  border: 0;
+  background: #0b5cab;
+  color: #fff;
+}
+
+.secondary {
+  border: 1px solid #0b5cab;
+  color: #0b5cab;
+}
+
+.alert {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #b42318;
+  border-radius: 8px;
+  background: #fef3f2;
+  color: #7a271a;
+}
+
+.hint {
+  color: #44525f;
+}
+
+.result {
+  padding: 1rem 1.25rem;
+  border-radius: 16px;
+  background: #eef4fa;
+  text-align: center;
+
+  h2 {
+    margin: 0.25rem 0 0.75rem;
+    font-size: 1.35rem;
+  }
+}
+
+.ref {
+  margin: 0;
+  color: #44525f;
+}
+
+.label {
+  margin: 0;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #44525f;
+}
+
+.number {
+  margin: 0 0 0.75rem;
+  font-size: clamp(3rem, 14vw, 5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: #0b5cab;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem 1rem;
+  margin: 0 auto;
+  max-width: 360px;
+  text-align: left;
+}
+
+dt {
+  font-weight: 600;
+}
+
+dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.updated {
+  margin: 1rem 0 0;
+  font-size: 0.9rem;
+  color: #44525f;
+}
