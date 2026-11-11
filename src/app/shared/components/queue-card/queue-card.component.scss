@@ -1,0 +1,64 @@
+.card {
+  padding: 1rem 1.25rem;
+  border-radius: 16px;
+  background: #fff;
+  color: #14212e;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 20%);
+}
+
+.doctor {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+}
+
+.label {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #44525f;
+}
+
+.serving {
+  margin: 0;
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: #0b5cab;
+
+  &.empty {
+    color: #8a97a3;
+  }
+}
+
+.next {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    background: #eef4fa;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}
+
+.none {
+  margin: 0;
+  color: #44525f;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid #d5dde5;
+  font-size: 1rem;
+}

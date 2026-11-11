@@ -1,0 +1,26 @@
+<article class="card" [attr.aria-label]="'Queue for ' + card().doctorName">
+  <h2 class="doctor">{{ card().doctorName }}</h2>
+
+  <p class="label">Now serving</p>
+  <p class="serving" [class.empty]="!card().nowServing" aria-live="polite">
+    {{ card().nowServing ?? '—' }}
+  </p>
+
+  <p class="label">Next</p>
+  @if (card().next.length > 0) {
+    <ul class="next">
+      @for (n of card().next; track n) {
+        <li>{{ n }}</li>
+      }
+    </ul>
+  } @else {
+    <p class="none">No one waiting</p>
+  }
+
+  <p class="meta">
+    <span>{{ card().waitingCount }} waiting</span>
+    @if (card().estimatedWaitMinutes !== null) {
+      <span>Wait {{ card().estimatedWaitMinutes | waitMinutes }}</span>
+    }
+  </p>
+</article>

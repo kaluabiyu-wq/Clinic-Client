@@ -1,0 +1,34 @@
+<main class="board">
+  <header class="top">
+    <h1>Patient queue</h1>
+    @if (lastUpdated(); as updated) {
+      <p class="updated">Updated {{ updated | date: 'mediumTime' }}</p>
+    }
+  </header>
+
+  @if (offline()) {
+    <p class="alert" role="alert">
+      @if (board()) {
+        Connection problem. Showing the last known queue. Please ask at reception if unsure.
+      } @else {
+        Cannot load the queue right now. Please ask at reception.
+      }
+    </p>
+  }
+
+  @if (!loaded()) {
+    <p class="hint">Loading queue…</p>
+  } @else if (board(); as b) {
+    @if (b.cards.length === 0) {
+      <p class="hint">No doctors are on duty today.</p>
+    } @else {
+      <section class="grid">
+        @for (card of b.cards; track card.doctorId) {
+          <app-queue-card [card]="card" />
+        }
+      </section>
+    }
+  }
+
+  <footer class="note">Show your queue number at reception. Names are never shown on this screen.</footer>
+</main>

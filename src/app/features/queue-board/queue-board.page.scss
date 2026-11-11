@@ -1,0 +1,52 @@
+.board {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 1rem;
+  background: #0f2740;
+  color: #fff;
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  h1 {
+    margin: 0;
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+  }
+}
+
+.updated {
+  margin: 0;
+  color: #c3d3e3;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.hint {
+  font-size: 1.25rem;
+  color: #c3d3e3;
+}
+
+.alert {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background: #fef3f2;
+  color: #7a271a;
+  font-weight: 600;
+}
+
+.note {
+  margin-top: 1.5rem;
+  color: #c3d3e3;
+  font-size: 0.9rem;
+}
