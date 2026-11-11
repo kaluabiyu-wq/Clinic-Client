@@ -1,0 +1,14 @@
+<div class="grid" role="group" aria-label="Available time slots">
+  @for (slot of slots(); track slot.time) {
+    <button
+      type="button"
+      class="slot"
+      [class.selected]="slot.time === selected()"
+      [attr.aria-pressed]="slot.time === selected()"
+      [disabled]="disabled()"
+      (click)="pick(slot.time)"
+    >
+      {{ label(slot.time) }}
+    </button>
+  }
+</div>

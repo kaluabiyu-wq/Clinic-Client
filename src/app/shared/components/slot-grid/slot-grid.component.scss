@@ -1,0 +1,37 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 0.5rem;
+}
+
+.slot {
+  min-height: 44px; // comfortable touch target on low-end phones
+  padding: 0.5rem;
+  border: 1px solid #5b6b7b;
+  border-radius: 8px;
+  background: #fff;
+  color: #14212e;
+  font-size: 1rem;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: #eef4fa;
+  }
+
+  &:focus-visible {
+    outline: 3px solid #0b5cab;
+    outline-offset: 2px;
+  }
+
+  &.selected {
+    background: #0b5cab;
+    border-color: #0b5cab;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

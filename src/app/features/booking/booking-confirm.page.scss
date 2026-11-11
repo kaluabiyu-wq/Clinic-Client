@@ -1,0 +1,71 @@
+.confirm {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1rem;
+  color: #14212e;
+  text-align: center;
+}
+
+.reference {
+  display: inline-block;
+  margin: 0.5rem 0 1rem;
+  padding: 0.75rem 1.5rem;
+  border: 2px dashed #0b5cab;
+  border-radius: 12px;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 1rem;
+  max-width: 320px;
+  margin: 0 auto 1rem;
+  text-align: left;
+}
+
+dt {
+  font-weight: 600;
+}
+
+dd {
+  margin: 0;
+}
+
+.hint {
+  color: #44525f;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.primary,
+.secondary {
+  display: block;
+  min-height: 48px;
+  line-height: 48px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+
+  &:focus-visible {
+    outline: 3px solid #0b5cab;
+    outline-offset: 2px;
+  }
+}
+
+.primary {
+  background: #0b5cab;
+  color: #fff;
+}
+
+.secondary {
+  border: 1px solid #0b5cab;
+  color: #0b5cab;
+}

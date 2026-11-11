@@ -1,0 +1,24 @@
+<main class="confirm">
+  <h1>Appointment booked</h1>
+  <p>Keep this reference. You need it to track your queue and to cancel.</p>
+
+  <p class="reference" aria-label="Booking reference">{{ reference }}</p>
+
+  @if (appointment; as a) {
+    <dl>
+      <dt>Doctor</dt>
+      <dd>{{ a.doctorName }}</dd>
+      <dt>Date</dt>
+      <dd>{{ a.date }}</dd>
+      <dt>Time</dt>
+      <dd>{{ label(a.slotTime) }}</dd>
+    </dl>
+  }
+
+  <p class="hint">Please arrive 10 minutes early and check in at reception to get your queue number.</p>
+
+  <nav class="actions">
+    <a class="primary" routerLink="/track" [queryParams]="{ reference: reference }">Track my queue</a>
+    <a class="secondary" routerLink="/book">Book another</a>
+  </nav>
+</main>

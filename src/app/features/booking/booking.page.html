@@ -1,0 +1,91 @@
+<main class="booking">
+  <h1>Book an appointment</h1>
+
+  @if (error(); as message) {
+    <p class="alert" role="alert">{{ message }}</p>
+  }
+
+  <section class="step">
+    <h2>1. Choose a doctor</h2>
+    @if (doctorsLoading()) {
+      <p class="hint">Loading doctors…</p>
+    } @else {
+      <label for="doctor">Doctor</label>
+      <select id="doctor" (change)="onDoctorChange($event)">
+        <option value="">Select a doctor</option>
+        @for (d of doctors(); track d.id) {
+          <option [value]="d.id">{{ d.fullName }} ({{ d.specialty }})</option>
+        }
+      </select>
+    }
+  </section>
+
+  <section class="step">
+    <h2>2. Choose a date</h2>
+    <label for="date">Date</label>
+    <input
+      id="date"
+      type="date"
+      [value]="date()"
+      [min]="minDate"
+      [max]="maxDate"
+      (change)="onDateChange($event)"
+    />
+  </section>
+
+  <section class="step">
+    <h2>3. Choose a time</h2>
+    @if (doctorId() === null) {
+      <p class="hint">Select a doctor to see available times.</p>
+    } @else if (slotsLoading()) {
+      <p class="hint">Loading available times…</p>
+    } @else if (slots().length === 0) {
+      <p class="hint">No free slots on this date. Try another day.</p>
+    } @else {
+      <app-slot-grid
+        [slots]="slots()"
+        [selected]="selectedSlot()"
+        [disabled]="submitting()"
+        (selectedChange)="onSlotSelected($event)"
+      />
+    }
+  </section>
+
+  <form class="step" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <h2>4. Your details</h2>
+
+    <label for="patientName">Full name</label>
+    <input id="patientName" type="text" formControlName="patientName" autocomplete="name" />
+    @if (form.controls.patientName.touched && form.controls.patientName.invalid) {
+      <p class="field-error">Please enter your full name.</p>
+    }
+
+    <label for="phone">Phone number</label>
+    <input
+      id="phone"
+      type="tel"
+      inputmode="tel"
+      formControlName="phone"
+      autocomplete="tel"
+      placeholder="09XXXXXXXX"
+    />
+    @if (form.controls.phone.touched && form.controls.phone.invalid) {
+      <p class="field-error">Enter a valid Ethiopian mobile number, e.g. 0911223344.</p>
+    }
+
+    <label for="reason">Reason for visit (optional)</label>
+    <textarea id="reason" rows="3" formControlName="reason"></textarea>
+
+    @if (selectedDoctor(); as doc) {
+      @if (selectedSlot(); as time) {
+        <p class="summary">
+          {{ doc.fullName }} · {{ date() }} · <strong>{{ label(time) }}</strong>
+        </p>
+      }
+    }
+
+    <button type="submit" class="primary" [disabled]="!canSubmit()">
+      {{ submitting() ? 'Booking…' : 'Confirm booking' }}
+    </button>
+  </form>
+</main>
