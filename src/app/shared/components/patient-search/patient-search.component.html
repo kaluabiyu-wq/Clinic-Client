@@ -1,0 +1,68 @@
+<div class="ps">
+  <label class="ps__label" [for]="inputId">{{ label }}</label>
+
+  <div class="ps__box">
+    <input
+      class="ps__input"
+      type="search"
+      role="combobox"
+      autocomplete="off"
+      aria-autocomplete="list"
+      [id]="inputId"
+      [formControl]="query"
+      [placeholder]="placeholder"
+      [attr.aria-expanded]="open()"
+      [attr.aria-controls]="listId"
+      [attr.aria-activedescendant]="activeId()"
+      (keydown)="onKeydown($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+    />
+
+    @if (loading()) {
+      <span class="ps__spinner" aria-hidden="true"></span>
+    }
+
+    @if (open()) {
+      <!-- mousedown is blocked so clicking an option does not blur the input first -->
+      <div class="ps__panel" (mousedown)="$event.preventDefault()">
+        @if (error()) {
+          <p class="ps__message ps__message--error" role="alert">
+            Search failed. Please try again.
+          </p>
+        } @else if (results().length === 0) {
+          <p class="ps__message">No patients found.</p>
+        } @else {
+          <ul class="ps__list" role="listbox" [id]="listId" [attr.aria-label]="label">
+            @for (p of results(); track p.id; let i = $index) {
+              <li
+                class="ps__option"
+                role="option"
+                [id]="listId + '-opt-' + i"
+                [class.ps__option--active]="i === activeIndex()"
+                [attr.aria-selected]="i === activeIndex()"
+                (click)="select(p)"
+              >
+                <span class="ps__name">{{ p.fullName }}</span>
+                <span class="ps__meta">
+                  {{ p.phone }}
+                  @if (p.dateOfBirth) {
+                    · born {{ p.dateOfBirth | date: 'mediumDate' }}
+                  }
+                </span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    }
+  </div>
+
+  <p class="ps__status" aria-live="polite">
+    @if (loading()) {
+      Searching…
+    } @else if (searched() && !error()) {
+      {{ results().length }} {{ results().length === 1 ? 'patient' : 'patients' }} found.
+    }
+  </p>
+</div>
