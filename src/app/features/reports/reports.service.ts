@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ApiService } from '../../core/api/api.service';
-import { Doctor } from '../../core/models/doctor.models';
+import { DoctorSummary } from '../../core/models/doctor.models';
 import {
   DailyReport,
   ReportFilter,
@@ -24,8 +24,8 @@ export class ReportsService {
   private readonly api = inject(ApiService);
   private readonly http = inject(HttpClient);
 
-  getDoctors(): Observable<Doctor[]> {
-    return this.api.get<Doctor[]>('/doctors');
+  getDoctors(): Observable<DoctorSummary[]> {
+    return this.api.get<DoctorSummary[]>('/doctors');
   }
 
   getDaily(filter: ReportFilter): Observable<DailyReport> {

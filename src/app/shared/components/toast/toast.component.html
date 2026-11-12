@@ -1,0 +1,19 @@
+<div class="toasts" aria-live="polite" aria-atomic="false">
+  @for (t of service.toasts(); track t.id) {
+    <div
+      class="toast toast--{{ t.type }}"
+      [attr.role]="t.type === 'error' ? 'alert' : 'status'"
+    >
+      <span class="toast__icon" aria-hidden="true">{{ icons[t.type] }}</span>
+      <p class="toast__message">{{ t.message }}</p>
+      <button
+        type="button"
+        class="toast__close"
+        aria-label="Dismiss notification"
+        (click)="service.dismiss(t.id)"
+      >
+        <span aria-hidden="true">✕</span>
+      </button>
+    </div>
+  }
+</div>

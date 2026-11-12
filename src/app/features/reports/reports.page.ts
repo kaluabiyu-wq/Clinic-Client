@@ -9,8 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { forkJoin } from 'rxjs';
-
-import { Doctor } from '../../core/models/doctor.models';
+import { DoctorSummary } from '../../core/models/doctor.models';
 import {
   DailyReport,
   ReportFilter,
@@ -51,7 +50,7 @@ export class ReportsPage implements OnInit {
   private readonly service = inject(ReportsService);
   private readonly toast = inject(ToastService);
 
-  readonly doctors = signal<Doctor[]>([]);
+  readonly doctors = signal<DoctorSummary[]>([]);
   readonly daily = signal<DailyReport | null>(null);
   readonly waits = signal<WaitReport | null>(null);
   readonly byHour = signal<VisitsByHour[]>([]);
