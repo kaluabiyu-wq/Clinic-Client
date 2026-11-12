@@ -1,0 +1,80 @@
+<form class="editor" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <div class="editor__slot">
+    <label for="slotMinutes">Slot length (minutes)</label>
+    <input
+      id="slotMinutes"
+      type="number"
+      inputmode="numeric"
+      min="5"
+      max="120"
+      step="5"
+      formControlName="slotMinutes"
+    />
+    @if (form.controls.slotMinutes.touched && form.controls.slotMinutes.invalid) {
+      <p class="error" role="alert">Enter a value between 5 and 120 minutes.</p>
+    }
+  </div>
+
+  <div class="editor__days" formArrayName="days">
+    @for (day of days.controls; track day.controls.dayOfWeek.value; let i = $index) {
+      <div
+        class="day"
+        [class.day--off]="!day.controls.isWorking.value"
+        [formGroupName]="i"
+      >
+        <label class="day__toggle">
+          <input
+            type="checkbox"
+            formControlName="isWorking"
+            (change)="onWorkingToggle(i)"
+          />
+          <span class="day__name">{{ dayLabels[day.controls.dayOfWeek.value] }}</span>
+        </label>
+
+        @if (day.controls.isWorking.value) {
+          <div class="day__times">
+            <label>
+              <span class="sr-only">Start time</span>
+              <input type="time" formControlName="startTime" />
+            </label>
+            <span aria-hidden="true">to</span>
+            <label>
+              <span class="sr-only">End time</span>
+              <input type="time" formControlName="endTime" />
+            </label>
+          </div>
+          <span class="day__count">{{ slotCount(i) }} slots</span>
+          @if (day.hasError('timeRange')) {
+            <p class="error day__error" role="alert">
+              Closing time must be after opening time.
+            </p>
+          }
+        } @else {
+          <span class="day__closed">Not working</span>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="editor__actions">
+    <button type="button" class="btn btn--ghost" (click)="copyFirstToAll()">
+      Copy first working day to all
+    </button>
+    <span class="spacer"></span>
+    <button
+      type="button"
+      class="btn btn--ghost"
+      [disabled]="saving || form.pristine"
+      (click)="reset()"
+    >
+      Discard changes
+    </button>
+    <button
+      type="submit"
+      class="btn btn--primary"
+      [disabled]="saving || form.pristine"
+    >
+      {{ saving ? 'Saving…' : 'Save schedule' }}
+    </button>
+  </div>
+</form>

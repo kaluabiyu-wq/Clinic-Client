@@ -1,0 +1,60 @@
+<div class="backdrop" (click)="!saving && cancelled.emit()">
+  <div
+    class="dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="closure-title"
+    (click)="$event.stopPropagation()"
+  >
+    <h2 id="closure-title">Add closure</h2>
+    <p class="dialog__sub">
+      {{ doctorName }} will have no bookable slots on the chosen date.
+    </p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="field">
+        <label for="closure-date">Date</label>
+        <input
+          id="closure-date"
+          type="date"
+          formControlName="date"
+          [min]="minDate"
+        />
+        @if (form.controls.date.touched || form.controls.date.dirty) {
+          @if (form.controls.date.hasError('required')) {
+            <p class="error" role="alert">Choose a date.</p>
+          } @else if (form.controls.date.hasError('duplicate')) {
+            <p class="error" role="alert">A closure already exists for this date.</p>
+          } @else if (form.controls.date.hasError('past')) {
+            <p class="error" role="alert">The date cannot be in the past.</p>
+          }
+        }
+      </div>
+
+      <div class="field">
+        <label for="closure-reason">Reason (optional)</label>
+        <input
+          id="closure-reason"
+          type="text"
+          maxlength="200"
+          placeholder="e.g. Public holiday, training day"
+          formControlName="reason"
+        />
+      </div>
+
+      <div class="dialog__actions">
+        <button
+          type="button"
+          class="btn btn--ghost"
+          [disabled]="saving"
+          (click)="cancelled.emit()"
+        >
+          Cancel
+        </button>
+        <button type="submit" class="btn btn--primary" [disabled]="saving">
+          {{ saving ? 'Adding…' : 'Add closure' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

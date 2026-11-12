@@ -1,0 +1,96 @@
+<section class="page">
+  <header class="page__header">
+    <h1>Doctor schedules</h1>
+    <p>Set weekly working hours and slot length, and block out days a doctor is away.</p>
+  </header>
+
+  @if (loadingDoctors()) {
+    <p class="muted">Loading doctors…</p>
+  } @else if (doctors().length === 0) {
+    <p class="muted">No doctors found. Add a doctor first.</p>
+  } @else {
+    <div class="field">
+      <label for="doctor">Doctor</label>
+      <select
+        id="doctor"
+        (change)="onDoctorChange($any($event.target).value)"
+      >
+        <option value="" disabled [selected]="!selectedDoctorId()">
+          Select a doctor
+        </option>
+        @for (d of doctors(); track d.id) {
+          <option [value]="d.id" [selected]="d.id === selectedDoctorId()">
+            {{ d.fullName }}
+          </option>
+        }
+      </select>
+    </div>
+  }
+
+  @if (loadingSchedule()) {
+    <p class="muted">Loading schedule…</p>
+  }
+
+  @if (schedule(); as s) {
+    <section class="card">
+      <h2>Weekly hours</h2>
+      <app-schedule-editor
+        [schedule]="s"
+        [saving]="saving()"
+        (save)="onSave($event)"
+      />
+    </section>
+
+    <section class="card">
+      <div class="card__head">
+        <h2>Closures</h2>
+        <button type="button" class="btn btn--primary" (click)="openClosureDialog()">
+          Add closure
+        </button>
+      </div>
+
+      @if (sortedClosures().length === 0) {
+        <p class="muted">No closures. The doctor follows the weekly hours every week.</p>
+      } @else {
+        <ul class="closures">
+          @for (c of sortedClosures(); track c.id) {
+            <li class="closure" [class.closure--past]="c.date < today">
+              <div class="closure__info">
+                <strong>{{ c.date | date: 'fullDate' }}</strong>
+                @if (c.reason) {
+                  <span class="muted">{{ c.reason }}</span>
+                }
+              </div>
+
+              @if (confirmDeleteId() === c.id) {
+                <div class="closure__confirm">
+                  <span>Remove this closure?</span>
+                  <button type="button" class="btn btn--danger" (click)="removeClosure(c.id)">
+                    Remove
+                  </button>
+                  <button type="button" class="btn btn--ghost" (click)="cancelRemove()">
+                    Keep
+                  </button>
+                </div>
+              } @else {
+                <button type="button" class="btn btn--ghost" (click)="askRemove(c.id)">
+                  Remove
+                </button>
+              }
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  }
+
+  @if (showClosureDialog()) {
+    <app-closure-dialog
+      [doctorName]="selectedDoctor()?.fullName ?? ''"
+      [existingDates]="closureDates()"
+      [saving]="savingClosure()"
+      (confirmed)="onClosureConfirmed($event)"
+      (cancelled)="closeClosureDialog()"
+    />
+  }
+</section>
