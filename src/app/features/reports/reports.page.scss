@@ -1,0 +1,160 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.page__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+
+  h1 {
+    margin: 0 0 0.25rem;
+    font-size: 1.5rem;
+  }
+
+  p {
+    margin: 0;
+    color: #5b6675;
+  }
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid #d3d9e0;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  label {
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+
+  input,
+  select {
+    font: inherit;
+    min-height: 2.5rem;
+    padding: 0.5rem 0.625rem;
+    border: 1px solid #8a94a3;
+    border-radius: 6px;
+    background: #fff;
+  }
+}
+
+.quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.chip {
+  font: inherit;
+  font-size: 0.875rem;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid #8a94a3;
+  border-radius: 999px;
+  background: #f5f7fa;
+  cursor: pointer;
+}
+
+.error {
+  width: 100%;
+  margin: 0;
+  color: #b3261e;
+  font-size: 0.875rem;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid #d3d9e0;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.tile__label {
+  font-size: 0.8125rem;
+  color: #5b6675;
+}
+
+.tile__value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+
+  small {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #5b6675;
+  }
+}
+
+.card {
+  padding: 1rem;
+  border: 1px solid #d3d9e0;
+  border-radius: 10px;
+  background: #fff;
+
+  h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1.125rem;
+  }
+}
+
+.muted {
+  color: #5b6675;
+}
+
+.btn {
+  font: inherit;
+  min-height: 2.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}
+
+.btn--primary {
+  background: #0b5cad;
+  color: #fff;
+}
+
+.btn--ghost {
+  background: transparent;
+  border-color: #8a94a3;
+  color: #1b2430;
+}

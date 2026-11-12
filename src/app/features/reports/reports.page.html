@@ -1,0 +1,98 @@
+<section class="page">
+  <header class="page__header">
+    <div>
+      <h1>Reports</h1>
+      <p>Aggregate clinic activity. No patient names or phone numbers are shown.</p>
+    </div>
+    <button
+      type="button"
+      class="btn btn--ghost"
+      [disabled]="exporting() || form.invalid"
+      (click)="exportCsv()"
+    >
+      {{ exporting() ? 'Exporting…' : 'Export CSV' }}
+    </button>
+  </header>
+
+  <form class="filters" [formGroup]="form" (ngSubmit)="apply()" novalidate>
+    <div class="field">
+      <label for="from">From</label>
+      <input id="from" type="date" formControlName="from" [max]="maxDate" />
+    </div>
+    <div class="field">
+      <label for="to">To</label>
+      <input id="to" type="date" formControlName="to" [max]="maxDate" />
+    </div>
+    <div class="field">
+      <label for="doctor">Doctor</label>
+      <select id="doctor" formControlName="doctorId">
+        <option value="">All doctors</option>
+        @for (d of doctors(); track d.id) {
+          <option [value]="d.id">{{ d.fullName }}</option>
+        }
+      </select>
+    </div>
+    <button type="submit" class="btn btn--primary" [disabled]="loading()">
+      {{ loading() ? 'Loading…' : 'Apply' }}
+    </button>
+
+    <div class="quick">
+      <button type="button" class="chip" (click)="setRange(1)">Today</button>
+      <button type="button" class="chip" (click)="setRange(7)">Last 7 days</button>
+      <button type="button" class="chip" (click)="setRange(30)">Last 30 days</button>
+    </div>
+
+    @if (form.hasError('range')) {
+      <p class="error" role="alert">The start date must be on or before the end date.</p>
+    }
+  </form>
+
+  @if (daily(); as d) {
+    <div class="tiles">
+      <div class="tile">
+        <span class="tile__label">Visits</span>
+        <span class="tile__value">{{ d.totalVisits }}</span>
+      </div>
+      <div class="tile">
+        <span class="tile__label">Cancellations</span>
+        <span class="tile__value">{{ d.cancellations }}</span>
+      </div>
+      <div class="tile">
+        <span class="tile__label">No-shows</span>
+        <span class="tile__value">{{ d.noShows }}</span>
+      </div>
+      @if (waits(); as w) {
+        <div class="tile">
+          <span class="tile__label">Average wait</span>
+          <span class="tile__value">
+            {{ w.averageWaitMinutes | number: '1.0-0' }}<small> min</small>
+          </span>
+        </div>
+        <div class="tile">
+          <span class="tile__label">Longest wait</span>
+          <span class="tile__value">
+            {{ w.longestWaitMinutes | number: '1.0-0' }}<small> min</small>
+          </span>
+        </div>
+        <div class="tile">
+          <span class="tile__label">Waited 15 min or less</span>
+          <span class="tile__value">
+            {{ w.percentWithin15Minutes | number: '1.0-0' }}<small>%</small>
+          </span>
+        </div>
+      }
+    </div>
+
+    <section class="card">
+      <h2>Visits by hour</h2>
+      <app-visits-by-hour-chart [data]="byHour()" />
+    </section>
+
+    <section class="card">
+      <h2>By doctor</h2>
+      <app-doctor-summary [rows]="d.doctors" />
+    </section>
+  } @else if (loading()) {
+    <p class="muted">Loading reports…</p>
+  }
+</section>

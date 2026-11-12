@@ -1,0 +1,57 @@
+:host {
+  display: block;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+th,
+td {
+  padding: 0.625rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e6eaef;
+  white-space: nowrap;
+}
+
+thead th {
+  font-weight: 600;
+  color: #5b6675;
+  background: #f5f7fa;
+}
+
+tbody th {
+  font-weight: 500;
+}
+
+tfoot th,
+tfoot td {
+  font-weight: 700;
+  border-bottom: none;
+  border-top: 2px solid #d3d9e0;
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.muted {
+  color: #5b6675;
+  margin: 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

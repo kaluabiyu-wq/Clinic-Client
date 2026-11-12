@@ -1,0 +1,68 @@
+@if (total() === 0) {
+  <p class="muted">No visits recorded in this period.</p>
+} @else {
+  <svg
+    class="chart"
+    [attr.viewBox]="'0 0 ' + width + ' ' + height"
+    role="img"
+    aria-label="Visits by hour of day"
+  >
+    @for (t of ticks(); track t.value) {
+      <line
+        class="grid"
+        [attr.x1]="padLeft"
+        [attr.x2]="width - padRight"
+        [attr.y1]="t.y"
+        [attr.y2]="t.y"
+      />
+      <text class="axis" [attr.x]="padLeft - 6" [attr.y]="t.y + 4" text-anchor="end">
+        {{ t.value }}
+      </text>
+    }
+
+    @for (b of bars(); track b.hour) {
+      <g>
+        <title>{{ b.label }}: {{ b.visits }} visits</title>
+        <rect
+          class="bar"
+          [attr.x]="b.x"
+          [attr.y]="b.y"
+          [attr.width]="b.width"
+          [attr.height]="b.height"
+          rx="3"
+        />
+        @if (b.visits > 0) {
+          <text
+            class="value"
+            [attr.x]="b.x + b.width / 2"
+            [attr.y]="b.y - 4"
+            text-anchor="middle"
+          >
+            {{ b.visits }}
+          </text>
+        }
+        <text
+          class="axis"
+          [attr.x]="b.x + b.width / 2"
+          [attr.y]="baseline + 18"
+          text-anchor="middle"
+        >
+          {{ b.hour }}
+        </text>
+      </g>
+    }
+  </svg>
+  <p class="caption">Hour of day (24-hour, local time)</p>
+
+  <table class="sr-only">
+    <caption>Visits by hour</caption>
+    <thead>
+      <tr><th scope="col">Hour</th><th scope="col">Visits</th></tr>
+    </thead>
+    <tbody>
+      @for (b of bars(); track b.hour) {
+        <tr><th scope="row">{{ b.label }}</th><td>{{ b.visits }}</td></tr>
+      }
+    </tbody>
+  </table>
+}

@@ -1,0 +1,38 @@
+@if (data().length === 0) {
+  <p class="muted">No doctor activity in this period.</p>
+} @else {
+  <div class="table-wrap">
+    <table>
+      <caption class="sr-only">Visits, cancellations, no-shows and average wait per doctor</caption>
+      <thead>
+        <tr>
+          <th scope="col">Doctor</th>
+          <th scope="col" class="num">Visits</th>
+          <th scope="col" class="num">Cancelled</th>
+          <th scope="col" class="num">No-shows</th>
+          <th scope="col" class="num">Avg wait (min)</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of data(); track r.doctorId) {
+          <tr>
+            <th scope="row">{{ r.doctorName }}</th>
+            <td class="num">{{ r.visits }}</td>
+            <td class="num">{{ r.cancellations }}</td>
+            <td class="num">{{ r.noShows }}</td>
+            <td class="num">{{ r.averageWaitMinutes | number: '1.0-0' }}</td>
+          </tr>
+        }
+      </tbody>
+      <tfoot>
+        <tr>
+          <th scope="row">All doctors</th>
+          <td class="num">{{ totals().visits }}</td>
+          <td class="num">{{ totals().cancellations }}</td>
+          <td class="num">{{ totals().noShows }}</td>
+          <td class="num">{{ totals().averageWait | number: '1.0-0' }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+}
