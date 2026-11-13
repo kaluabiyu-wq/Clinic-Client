@@ -41,10 +41,8 @@ export class TrackQueuePage {
   protected readonly info = signal<TrackQueue | null>(null);
   protected readonly loaded = signal(false);
   protected readonly notFound = signal(false);
-  /** Latest refresh failed; the last good data stays on screen. */
   protected readonly offline = signal(false);
   protected readonly lastUpdated = signal<Date | null>(null);
-  /** Polling stopped because the visit ended or the reference is unknown. */
   protected readonly finished = signal(false);
   protected readonly searching = computed(() => this.request() !== null && !this.loaded());
 
@@ -60,7 +58,7 @@ export class TrackQueuePage {
           if (!req) {
             return EMPTY;
           }
-          // inclusive takeWhile: the last (final) result is still delivered, then polling stops
+    
           return this.service
             .watch(req.reference)
             .pipe(takeWhile((result) => !this.isFinal(result), true));
@@ -69,7 +67,7 @@ export class TrackQueuePage {
       )
       .subscribe((result) => this.apply(result));
 
-    // Deep link from the confirmation page: /track?reference=APT1006
+  
     const initial = this.route.snapshot.queryParamMap.get('reference');
     if (initial) {
       this.form.controls.reference.setValue(initial.trim().toUpperCase());
@@ -85,7 +83,6 @@ export class TrackQueuePage {
     const reference = this.form.getRawValue().reference.trim().toUpperCase();
     this.form.controls.reference.setValue(reference);
     this.request.set({ reference, n: ++this.attempt });
-    // Empty commands keep the current path and only update ?reference= so the link can be shared.
     this.router.navigate([], { queryParams: { reference }, replaceUrl: true });
   }
 

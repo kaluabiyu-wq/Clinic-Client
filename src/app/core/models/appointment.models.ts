@@ -6,12 +6,10 @@ export type AppointmentStatus =
   | 'Cancelled'
   | 'NoShow';
 
-/** Body of POST /appointments (public booking, no login). */
+
 export interface BookAppointmentRequest {
   doctorId: number;
-  /** yyyy-MM-dd */
   date: string;
-  /** HH:mm */
   slotTime: string;
   patientName: string;
   phone: string;
@@ -20,7 +18,6 @@ export interface BookAppointmentRequest {
 
 export interface Appointment {
   id: number;
-  /** e.g. APT1006 */
   reference: string;
   doctorId: number;
   doctorName: string;

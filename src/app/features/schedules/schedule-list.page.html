@@ -13,10 +13,10 @@
       <label for="doctor">Doctor</label>
       <select
         id="doctor"
-        (change)="onDoctorChange($any($event.target).value)"
+        (change)="onDoctorChange(+$any($event.target).value)"
       >
-        <option value="" disabled [selected]="!selectedDoctorId()">
-          Select a doctor
+        <option value="" disabled [selected]="selectedDoctorId() === null">
+          Select a doctor…
         </option>
         @for (d of doctors(); track d.id) {
           <option [value]="d.id" [selected]="d.id === selectedDoctorId()">

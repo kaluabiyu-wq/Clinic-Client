@@ -3,7 +3,7 @@
 }
 
 .stat-card {
-  --accent: #0b6e99; // primary clinic colour, adjust to your theme
+  --accent: #0b6e99; 
 
   box-sizing: border-box;
   height: 100%;
@@ -24,7 +24,7 @@
   margin: 0 0 8px;
   font-size: 0.95rem;
   font-weight: 600;
-  color: #486581; // good contrast on white
+  color: #486581; 
 }
 
 .stat-card__value {

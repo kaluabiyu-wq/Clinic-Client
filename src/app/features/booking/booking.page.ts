@@ -4,7 +4,7 @@ import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-i
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
-import { DoctorSummary } from '../../core/models/doctor.models';
+import { Doctor } from '../../core/models/doctor.models';
 import { Slot } from '../../core/models/schedule.models';
 import { SlotGridComponent } from '../../shared/components/slot-grid/slot-grid.component';
 import { addDaysIso, formatSlotTime, todayIso } from '../../shared/utils/date-utils';
@@ -29,7 +29,7 @@ export class BookingPage {
   protected readonly label = formatSlotTime;
 
   // Step 1-2 state
-  protected readonly doctors = signal<DoctorSummary[]>([]);
+  protected readonly doctors = signal<Doctor[]>([]);
   protected readonly doctorsLoading = signal(true);
   protected readonly doctorId = signal<number | null>(null);
   protected readonly date = signal(todayIso());

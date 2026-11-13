@@ -10,10 +10,7 @@ export interface Toast {
 
 const MAX_VISIBLE = 4;
 
-/**
- * App-wide notifications. Inject it anywhere and call
- * success(), error(), info() or warning(). Render them once with <app-toast />.
- */
+
 @Injectable({ providedIn: 'root' })
 export class ToastService {
   private nextId = 1;
@@ -26,7 +23,7 @@ export class ToastService {
     this.show('success', message, durationMs);
   }
 
-  /** Errors stay longer so they can be read. */
+ 
   error(message: string, durationMs = 7000): void {
     this.show('error', message, durationMs);
   }
@@ -39,9 +36,9 @@ export class ToastService {
     this.show('warning', message, durationMs);
   }
 
-  /** Pass 0 as the duration to keep a toast until it is dismissed. */
+  
   show(type: ToastType, message: string, durationMs = 4000): void {
-    // The same message shown again just restarts its timer, no stacking.
+    
     const existing = this._toasts().find(
       (t) => t.type === type && t.message === message,
     );
@@ -53,7 +50,6 @@ export class ToastService {
     const toast: Toast = { id: this.nextId++, type, message };
     this._toasts.update((list) => {
       const next = [...list, toast];
-      // Drop the oldest ones if too many pile up.
       while (next.length > MAX_VISIBLE) {
         const removed = next.shift()!;
         this.clearTimer(removed.id);

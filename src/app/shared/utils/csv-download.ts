@@ -1,4 +1,4 @@
-/** Saves a Blob as a file download (used for GET /reports/export.csv). */
+
 export function downloadBlob(blob: Blob, filename: string): void {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');

@@ -17,7 +17,7 @@ import {
 
 import { CreateClosure } from '../../core/models/schedule.models';
 
-/** Local "yyyy-MM-dd" (avoids the UTC shift of toISOString). */
+
 function todayIso(): string {
   const d = new Date();
   const mm = String(d.getMonth() + 1).padStart(2, '0');

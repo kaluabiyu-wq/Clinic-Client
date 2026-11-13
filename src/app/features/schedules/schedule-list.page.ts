@@ -33,7 +33,7 @@ export class ScheduleListPage implements OnInit {
   readonly today = todayIso();
 
   readonly doctors = signal<Doctor[]>([]);
-  readonly selectedDoctorId = signal<string | null>(null);
+  readonly selectedDoctorId = signal<number | null>(null);
   readonly schedule = signal<Schedule | null>(null);
 
   readonly loadingDoctors = signal(true);
@@ -70,7 +70,7 @@ export class ScheduleListPage implements OnInit {
     });
   }
 
-  onDoctorChange(doctorId: string): void {
+  onDoctorChange(doctorId: number): void {
     if (!doctorId) return;
     this.selectedDoctorId.set(doctorId);
     this.schedule.set(null);

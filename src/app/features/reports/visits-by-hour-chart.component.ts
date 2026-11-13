@@ -16,7 +16,7 @@ const WIDTH = 640;
 const HEIGHT = 260;
 const PAD = { top: 16, right: 12, bottom: 32, left: 36 };
 
-/** Pure SVG column chart, so no charting library is needed. */
+
 @Component({
   selector: 'app-visits-by-hour-chart',
   standalone: true,
@@ -33,7 +33,7 @@ export class VisitsByHourChartComponent {
   readonly width = WIDTH;
   readonly height = HEIGHT;
 
-  /** Always shows at least 08:00 to 17:00, widening if there is data outside. */
+
   readonly hours = computed(() => {
     const withData = this._data().filter((d) => d.visits > 0);
     const min = Math.min(8, ...withData.map((d) => d.hour));
@@ -45,7 +45,7 @@ export class VisitsByHourChartComponent {
 
   readonly maxVisits = computed(() => {
     const peak = Math.max(0, ...this._data().map((d) => d.visits));
-    // Round the axis up to a tidy number so gridlines read well.
+  
     if (peak <= 5) return 5;
     const step = peak <= 20 ? 5 : 10;
     return Math.ceil(peak / step) * step;

@@ -24,7 +24,7 @@
     }
 
     @if (open()) {
-      <!-- mousedown is blocked so clicking an option does not blur the input first -->
+      
       <div class="ps__panel" (mousedown)="$event.preventDefault()">
         @if (error()) {
           <p class="ps__message ps__message--error" role="alert">

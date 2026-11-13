@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ApiService } from '../../core/api/api.service';
-import { DoctorSummary } from '../../core/models/doctor.models';
+import { Doctor } from '../../core/models/doctor.models';
 import {
   DailyReport,
   ReportFilter,
@@ -12,20 +12,14 @@ import {
 } from '../../core/models/report.models';
 import { environment } from '../../../environments/environment';
 
-/**
- * Report endpoints from the API plan (Administrator only):
- *   GET /reports/daily
- *   GET /reports/waits
- *   GET /reports/visits-by-hour
- *   GET /reports/export.csv
- */
+
 @Injectable({ providedIn: 'root' })
 export class ReportsService {
   private readonly api = inject(ApiService);
   private readonly http = inject(HttpClient);
 
-  getDoctors(): Observable<DoctorSummary[]> {
-    return this.api.get<DoctorSummary[]>('/doctors');
+  getDoctors(): Observable<Doctor[]> {
+    return this.api.get<Doctor[]>('/doctors');
   }
 
   getDaily(filter: ReportFilter): Observable<DailyReport> {
@@ -42,7 +36,7 @@ export class ReportsService {
     );
   }
 
-  /** The CSV comes back as a file, so this uses HttpClient with a blob response. */
+  
   exportCsv(filter: ReportFilter): Observable<Blob> {
     return this.http.get(
       `${environment.apiUrl}/reports/export.csv?${this.query(filter)}`,

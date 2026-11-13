@@ -1,13 +1,7 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  ContentChild,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  TemplateRef,
+  ChangeDetectionStrategy,Component,
+  ContentChild,EventEmitter,
+  Input,OnChanges,Output,SimpleChanges,TemplateRef,
 } from '@angular/core';
 import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';

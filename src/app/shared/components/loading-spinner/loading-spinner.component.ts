@@ -27,15 +27,15 @@ import { NgIf } from '@angular/common';
   `,
 })
 export class LoadingSpinnerComponent {
-  /** Diameter of the spinner in pixels. */
+ 
   @Input() size = 40;
 
-  /** Ring thickness in pixels. */
+
   @Input() thickness = 4;
 
-  /** Optional text shown under the spinner. Pass a translated string from assets/i18n. */
+  
   @Input() message = '';
 
-  /** When true, covers the parent (which needs position: relative) with a dimmed backdrop. */
+  
   @Input() overlay = false;
 }

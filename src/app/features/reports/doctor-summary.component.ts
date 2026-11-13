@@ -26,7 +26,6 @@ export class DoctorSummaryComponent {
       visits,
       cancellations: rows.reduce((sum, r) => sum + r.cancellations, 0),
       noShows: rows.reduce((sum, r) => sum + r.noShows, 0),
-      // Weighted by visits so busy doctors count for more.
       averageWait:
         visits === 0
           ? 0

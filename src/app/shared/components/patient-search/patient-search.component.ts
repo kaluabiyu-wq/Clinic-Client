@@ -1,26 +1,13 @@
 import { DatePipe } from '@angular/common';
 import {
-  Component,
-  DestroyRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  computed,
-  inject,
-  signal,
+  Component,DestroyRef,EventEmitter,
+  Input,OnInit, Output,computed,inject,signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import {
-  EMPTY,
-  Observable,
-  catchError,
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  switchMap,
-  tap,
+import {EMPTY,Observable,
+  catchError,debounceTime,distinctUntilChanged,
+  map,switchMap,tap,
 } from 'rxjs';
 
 import { ApiService } from '../../../core/api/api.service';
@@ -28,13 +15,7 @@ import { PatientSearchResult } from '../../../core/models/patient.models';
 
 let nextId = 0;
 
-/**
- * Type-ahead patient search (GET /patients?q=).
- *
- * - `selected` fires when the user picks a patient.
- * - `resultsChange` fires with every new result list, so a registration form
- *   can use it for the duplicate warning (FR2).
- */
+
 @Component({
   selector: 'app-patient-search',
   standalone: true,

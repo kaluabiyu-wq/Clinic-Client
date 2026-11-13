@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { forkJoin } from 'rxjs';
-import { DoctorSummary } from '../../core/models/doctor.models';
+import { Doctor } from '../../core/models/doctor.models';
 import {
   DailyReport,
   ReportFilter,
@@ -50,7 +50,7 @@ export class ReportsPage implements OnInit {
   private readonly service = inject(ReportsService);
   private readonly toast = inject(ToastService);
 
-  readonly doctors = signal<DoctorSummary[]>([]);
+  readonly doctors = signal<Doctor[]>([]);
   readonly daily = signal<DailyReport | null>(null);
   readonly waits = signal<WaitReport | null>(null);
   readonly byHour = signal<VisitsByHour[]>([]);
@@ -62,7 +62,7 @@ export class ReportsPage implements OnInit {
 
   readonly form = new FormGroup(
     {
-      // Default: the last 7 days including today.
+      
       from: new FormControl(toIso(this.daysAgo(6)), {
         nonNullable: true,
         validators: Validators.required,
@@ -110,7 +110,7 @@ export class ReportsPage implements OnInit {
     });
   }
 
-  /** Quick ranges: today, last 7 days, last 30 days. */
+
   setRange(days: number): void {
     this.form.patchValue({
       from: toIso(this.daysAgo(days - 1)),

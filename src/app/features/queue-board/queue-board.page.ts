@@ -18,7 +18,6 @@ export class QueueBoardPage {
 
   protected readonly board = signal<QueueBoard | null>(null);
   protected readonly loaded = signal(false);
-  /** True when the latest refresh failed; the last good data stays on screen. */
   protected readonly offline = signal(false);
   protected readonly lastUpdated = signal<Date | null>(null);
 

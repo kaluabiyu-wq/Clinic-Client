@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { EMPTY, switchMap } from 'rxjs';
-import { DoctorSummary } from '../../core/models/doctor.models';
+import { Doctor } from '../../core/models/doctor.models';
 import { ConsultationRoom } from '../../core/models/queue.models';
 import { PollResult } from '../../shared/utils/polling';
 import { ConsultationService } from './consultation.service';
@@ -42,7 +42,7 @@ function storeDoctorId(id: number | null): void {
 export class ConsultationRoomPage {
   private readonly service = inject(ConsultationService);
 
-  protected readonly doctors = signal<DoctorSummary[]>([]);
+  protected readonly doctors = signal<Doctor[]>([]);
   protected readonly doctorId = signal<number | null>(readStoredDoctorId());
   protected readonly room = signal<ConsultationRoom | null>(null);
   protected readonly loaded = signal(false);

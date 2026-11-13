@@ -1,20 +1,11 @@
 import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  inject,
+  Component,EventEmitter,
+  Input,OnChanges,Output,SimpleChanges,inject,
 } from '@angular/core';
 import {
-  AbstractControl,
-  FormArray,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidationErrors,
-  Validators,
+  AbstractControl,FormArray,
+  FormControl,FormGroup,ReactiveFormsModule,
+  ValidationErrors,Validators,
 } from '@angular/forms';
 
 import {
@@ -34,7 +25,7 @@ const DAY_LABELS: Record<DayOfWeekNumber, string> = {
   6: 'Saturday',
 };
 
-/** Monday first, Sunday last. */
+
 const DISPLAY_ORDER: DayOfWeekNumber[] = [1, 2, 3, 4, 5, 6, 0];
 
 function toMinutes(value: string): number {
@@ -42,7 +33,7 @@ function toMinutes(value: string): number {
   return h * 60 + m;
 }
 
-/** A working day must end after it starts. */
+
 function timeRangeValidator(group: AbstractControl): ValidationErrors | null {
   const isWorking = group.get('isWorking')?.value as boolean;
   const start = group.get('startTime')?.value as string;
@@ -90,7 +81,7 @@ export class ScheduleEditorComponent implements OnChanges {
     }
   }
 
-  /** Number of bookable slots for a day, for the live preview. */
+
   slotCount(index: number): number {
     const day = this.days.at(index).getRawValue();
     const slot = this.form.controls.slotMinutes.value;
@@ -111,7 +102,7 @@ export class ScheduleEditorComponent implements OnChanges {
     }
   }
 
-  /** Copies the first working day's hours onto every other working day. */
+  
   copyFirstToAll(): void {
     const source = this.days.controls
       .map((g) => g.getRawValue())
