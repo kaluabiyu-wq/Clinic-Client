@@ -1,0 +1,64 @@
+:host {
+  display: inline-block;
+}
+
+.status-badge {
+  --bg: #e4ebf1;
+  --fg: #243b53;
+  --dot: #627d98;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  color: var(--fg);
+  background: var(--bg);
+  border-radius: 999px;
+
+  &--booked {
+    --bg: #e0f0ff;
+    --fg: #0b4f7a;
+    --dot: #0b6e99;
+  }
+
+  &--waiting {
+    --bg: #fff3d6;
+    --fg: #7a4a00;
+    --dot: #b45f06;
+  }
+
+  &--serving {
+    --bg: #dcf5e7;
+    --fg: #0f5a34;
+    --dot: #1b7f4b;
+  }
+
+  &--completed {
+    --bg: #e4ebf1;
+    --fg: #243b53;
+    --dot: #486581;
+  }
+
+  &--cancelled {
+    --bg: #fde4e1;
+    --fg: #8a1c12;
+    --dot: #b42318;
+  }
+
+  &--noshow {
+    --bg: #f1e4f7;
+    --fg: #5b2377;
+    --dot: #7b3a9b;
+  }
+}
+
+.status-badge__dot {
+  width: 8px;
+  height: 8px;
+  background: var(--dot);
+  border-radius: 50%;
+}
