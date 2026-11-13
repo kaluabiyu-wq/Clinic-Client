@@ -1,0 +1,137 @@
+<section class="page">
+  <header class="page__header">
+    <div>
+      <h1>Staff accounts</h1>
+      <p class="muted">
+        Create sign-ins for receptionists, clinicians and administrators, and switch
+        accounts off when someone leaves.
+      </p>
+    </div>
+    <button type="button" class="btn btn--primary" (click)="openCreate()">
+      Add staff account
+    </button>
+  </header>
+
+  <div class="filters">
+    <div class="field field--grow">
+      <label for="user-search">Search</label>
+      <input
+        id="user-search"
+        type="search"
+        placeholder="Name or email"
+        [value]="query()"
+        (input)="onQuery($event)"
+      />
+    </div>
+
+    <div class="field">
+      <label for="user-role">Role</label>
+      <select id="user-role" (change)="onRoleFilter($event)">
+        <option value="" [selected]="roleFilter() === ''">All roles</option>
+        @for (r of roles; track r) {
+          <option [value]="r" [selected]="roleFilter() === r">{{ r }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="user-status">Status</label>
+      <select id="user-status" (change)="onStatusFilter($event)">
+        <option value="all" [selected]="statusFilter() === 'all'">All</option>
+        <option value="active" [selected]="statusFilter() === 'active'">Active</option>
+        <option value="inactive" [selected]="statusFilter() === 'inactive'">Inactive</option>
+      </select>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <p class="muted">Loading staff accounts…</p>
+  } @else if (loadFailed()) {
+    <div class="card state">
+      <p>Staff accounts could not be loaded.</p>
+      <button type="button" class="btn btn--ghost" (click)="load()">Try again</button>
+    </div>
+  } @else if (users().length === 0) {
+    <div class="card state">
+      <p>No staff accounts yet. Add the first one to let someone sign in.</p>
+      <button type="button" class="btn btn--primary" (click)="openCreate()">
+        Add staff account
+      </button>
+    </div>
+  } @else {
+    <p class="muted summary">
+      Showing {{ filtered().length }} of {{ users().length }} accounts,
+      {{ activeCount() }} active.
+    </p>
+
+    @if (filtered().length === 0) {
+      <div class="card state">
+        <p>No accounts match these filters.</p>
+      </div>
+    } @else {
+      <div class="card table-wrap">
+        <table class="users">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Role</th>
+              <th scope="col">Status</th>
+              <th scope="col"><span class="sr-only">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (u of filtered(); track u.id) {
+              <tr [class.users__row--inactive]="!u.isActive">
+                <td data-label="Name"><strong>{{ u.fullName }}</strong></td>
+                <td data-label="Email">{{ u.email }}</td>
+                <td data-label="Role">{{ u.role }}</td>
+                <td data-label="Status">
+                  <span class="badge" [class.badge--active]="u.isActive">
+                    {{ u.isActive ? 'Active' : 'Inactive' }}
+                  </span>
+                </td>
+                <td class="users__actions">
+                  @if (confirmToggleId() === u.id) {
+                    <span class="confirm">
+                      <span>{{ u.isActive ? 'Deactivate this account?' : 'Activate this account?' }}</span>
+                      <button
+                        type="button"
+                        class="btn"
+                        [class.btn--danger]="u.isActive"
+                        [class.btn--primary]="!u.isActive"
+                        [disabled]="togglingId() === u.id"
+                        (click)="toggleActive(u)"
+                      >
+                        {{ u.isActive ? 'Deactivate' : 'Activate' }}
+                      </button>
+                      <button type="button" class="btn btn--ghost" (click)="cancelToggle()">
+                        Keep as is
+                      </button>
+                    </span>
+                  } @else {
+                    <button type="button" class="btn btn--ghost" (click)="openEdit(u)">
+                      Edit
+                    </button>
+                    <button type="button" class="btn btn--ghost" (click)="askToggle(u.id)">
+                      {{ u.isActive ? 'Deactivate' : 'Activate' }}
+                    </button>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  }
+
+  @if (dialogOpen()) {
+    <app-user-form-dialog
+      [user]="editing()"
+      [saving]="saving()"
+      (confirmed)="onDialogConfirmed($event)"
+      (cancelled)="closeDialog()"
+    />
+  }
+</section>
