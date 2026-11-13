@@ -1,0 +1,42 @@
+<div
+  *ngIf="open"
+  class="confirm-backdrop"
+  (click)="onBackdropClick($event)"
+  (keydown)="onKeydown($event)"
+>
+  <div
+    class="confirm-dialog"
+    [ngClass]="variantClass"
+    role="alertdialog"
+    aria-modal="true"
+    [attr.aria-labelledby]="titleId"
+    [attr.aria-describedby]="message ? messageId : null"
+  >
+    <h2 class="confirm-dialog__title" [id]="titleId">{{ title }}</h2>
+
+    <p *ngIf="message" class="confirm-dialog__message" [id]="messageId">{{ message }}</p>
+
+    <div class="confirm-dialog__actions">
+      <button
+        #cancelButton
+        type="button"
+        class="btn btn--secondary"
+        [disabled]="busy"
+        (click)="onCancel()"
+      >
+        {{ cancelLabel }}
+      </button>
+
+      <button
+        #confirmButton
+        type="button"
+        class="btn btn--primary"
+        [disabled]="busy"
+        [attr.aria-busy]="busy"
+        (click)="onConfirm()"
+      >
+        {{ confirmLabel }}
+      </button>
+    </div>
+  </div>
+</div>
