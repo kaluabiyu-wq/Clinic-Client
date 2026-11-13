@@ -1,0 +1,80 @@
+<div class="table-container">
+  <div class="table-scroll">
+    <table class="data-table">
+      <caption *ngIf="caption" class="visually-hidden">{{ caption }}</caption>
+
+      <thead>
+        <tr>
+          <th
+            *ngFor="let col of columns"
+            scope="col"
+            [class]="col.cssClass || ''"
+            [class.sortable]="col.sortable"
+            [attr.aria-sort]="ariaSort(col)"
+          >
+            <button
+              *ngIf="col.sortable; else plainHeader"
+              type="button"
+              class="sort-button"
+              (click)="toggleSort(col)"
+            >
+              {{ col.header }}
+              <span class="sort-icon" aria-hidden="true">
+                {{ sortKey === col.key ? (sortDir === 'asc' ? '▲' : '▼') : '↕' }}
+              </span>
+            </button>
+            <ng-template #plainHeader>{{ col.header }}</ng-template>
+          </th>
+          <th *ngIf="rowActionsTemplate" scope="col" class="actions-col">
+            <span class="visually-hidden">Actions</span>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngIf="loading">
+          <td [attr.colspan]="colspan" class="state-cell">
+            <app-loading-spinner></app-loading-spinner>
+          </td>
+        </tr>
+
+        <tr *ngIf="!loading && visibleRows.length === 0">
+          <td [attr.colspan]="colspan" class="state-cell empty">{{ emptyMessage }}</td>
+        </tr>
+
+        <ng-container *ngIf="!loading">
+          <tr
+            *ngFor="let row of visibleRows; trackBy: trackRow"
+            [class.clickable]="clickableRows"
+            [class]="rowClass ? rowClass(row) : ''"
+            [attr.tabindex]="clickableRows ? 0 : null"
+            (click)="onRowClick(row)"
+            (keydown.enter)="onRowClick(row)"
+          >
+            <td *ngFor="let col of columns" [class]="col.cssClass || ''">
+              <ng-container
+                *ngIf="cellTemplates[col.key] as tpl; else plainCell"
+                [ngTemplateOutlet]="tpl"
+                [ngTemplateOutletContext]="{ $implicit: getValue(row, col.key), row: row }"
+              ></ng-container>
+              <ng-template #plainCell>{{ display(col, row) }}</ng-template>
+            </td>
+
+            <td *ngIf="rowActionsTemplate" class="actions-col" (click)="$event.stopPropagation()">
+              <ng-container
+                [ngTemplateOutlet]="rowActionsTemplate"
+                [ngTemplateOutletContext]="{ $implicit: row }"
+              ></ng-container>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+  <nav *ngIf="pageSize && totalPages > 1" class="pager" aria-label="Table pages">
+    <button type="button" (click)="goTo(page - 1)" [disabled]="page === 1">Previous</button>
+    <span class="pager-status">Page {{ page }} of {{ totalPages }}</span>
+    <button type="button" (click)="goTo(page + 1)" [disabled]="page === totalPages">Next</button>
+  </nav>
+</div>
