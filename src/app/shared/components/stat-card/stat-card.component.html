@@ -1,0 +1,13 @@
+<article class="stat-card" [ngClass]="variantClass" role="group" [attr.aria-label]="label">
+  <h3 class="stat-card__label">{{ label }}</h3>
+
+  <p class="stat-card__value" [class.stat-card__value--loading]="loading">
+    <ng-container *ngIf="!loading">
+      <span class="stat-card__number">{{ hasValue ? value : '–' }}</span>
+      <span *ngIf="hasValue && unit" class="stat-card__unit">{{ unit }}</span>
+    </ng-container>
+    <span *ngIf="loading" class="visually-hidden">Loading</span>
+  </p>
+
+  <p *ngIf="hint" class="stat-card__hint">{{ hint }}</p>
+</article>

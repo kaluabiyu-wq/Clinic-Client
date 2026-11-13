@@ -1,0 +1,93 @@
+:host {
+  display: block;
+}
+
+.stat-card {
+  --accent: #0b6e99; // primary clinic colour, adjust to your theme
+
+  box-sizing: border-box;
+  height: 100%;
+  padding: 16px 20px;
+  background: #ffffff;
+  border: 1px solid #d9e2ec;
+  border-left: 6px solid var(--accent);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(16, 42, 67, 0.08);
+
+  &--success { --accent: #1b7f4b; }
+  &--warning { --accent: #b45f06; }
+  &--danger  { --accent: #b42318; }
+  &--info    { --accent: #0b6e99; }
+}
+
+.stat-card__label {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #486581; // good contrast on white
+}
+
+.stat-card__value {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-height: 2.5rem;
+  margin: 0;
+  color: #102a43;
+
+  &--loading {
+    width: 60%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #e4ebf1 25%, #f1f5f9 50%, #e4ebf1 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.2s ease-in-out infinite;
+  }
+}
+
+.stat-card__number {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.stat-card__unit {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #486581;
+}
+
+.stat-card__hint {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: #627d98;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stat-card__value--loading {
+    animation: none;
+  }
+}
+
+// Slightly smaller figures on narrow phones
+@media (max-width: 480px) {
+  .stat-card__number {
+    font-size: 1.6rem;
+  }
+}
