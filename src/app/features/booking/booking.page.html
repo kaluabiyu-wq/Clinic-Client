@@ -73,8 +73,21 @@
       <p class="field-error">Enter a valid Ethiopian mobile number, e.g. 0911223344.</p>
     }
 
-    <label for="reason">Reason for visit (optional)</label>
-    <textarea id="reason" rows="3" formControlName="reason"></textarea>
+    <label for="dateOfBirth">Date of birth</label>
+    <input id="dateOfBirth" type="date" formControlName="dateOfBirth" [max]="today" />
+    @if (form.controls.dateOfBirth.touched && form.controls.dateOfBirth.invalid) {
+      <p class="field-error">Please enter your date of birth.</p>
+    }
+
+    <label for="sex">Sex</label>
+    <select id="sex" formControlName="sex">
+      <option value="">Select</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select>
+    @if (form.controls.sex.touched && form.controls.sex.invalid) {
+      <p class="field-error">Please select one.</p>
+    }
 
     @if (selectedDoctor(); as doc) {
       @if (selectedSlot(); as time) {

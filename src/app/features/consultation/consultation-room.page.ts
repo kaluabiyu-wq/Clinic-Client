@@ -3,6 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { EMPTY, switchMap } from 'rxjs';
+import { AuthService } from '../../core/auth/auth.service';
 import { Doctor } from '../../core/models/doctor.models';
 import { ConsultationRoom } from '../../core/models/queue.models';
 import { PollResult } from '../../shared/utils/polling';
@@ -41,6 +42,7 @@ function storeDoctorId(id: number | null): void {
 })
 export class ConsultationRoomPage {
   private readonly service = inject(ConsultationService);
+  private readonly auth = inject(AuthService);
 
   protected readonly doctors = signal<Doctor[]>([]);
   protected readonly doctorId = signal<number | null>(readStoredDoctorId());
@@ -69,6 +71,12 @@ export class ConsultationRoomPage {
   });
 
   constructor() {
+    // A clinician works their own queue: preselect the doctor linked to their account.
+    const own = this.auth.user();
+    if (own?.role === 'Clinician' && own.doctorId) {
+      this.doctorId.set(Number(own.doctorId));
+    }
+
     this.service
       .getDoctors()
       .pipe(takeUntilDestroyed())

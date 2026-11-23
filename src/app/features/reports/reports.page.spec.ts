@@ -69,6 +69,6 @@ describe('ReportsPage', () => {
     page.form.patchValue({ from: '2026-11-12', to: '2026-11-01' });
     page.apply();
     expect(dailyCalls).toBe(1);
-    expect(page.form.hasError('range')).toBeTrue();
+    expect(page.form.hasError('range')).toBe(true);
   });
 });

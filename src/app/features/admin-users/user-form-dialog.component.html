@@ -49,6 +49,21 @@
         </select>
       </div>
 
+      @if (needsDoctor()) {
+        <div class="field">
+          <label for="uf-doctor">Linked doctor</label>
+          <select id="uf-doctor" formControlName="doctorId">
+            <option value="">Select a doctor</option>
+            @for (d of doctors(); track d.id) {
+              <option [value]="d.id">{{ d.fullName }}</option>
+            }
+          </select>
+          @if (form.controls.doctorId.touched && !form.controls.doctorId.value) {
+            <p class="error">A clinician account must be linked to a doctor.</p>
+          }
+        </div>
+      }
+
       @if (!isEdit()) {
         <div class="field">
           <label for="uf-password">Temporary password</label>
@@ -60,7 +75,7 @@
             [attr.aria-invalid]="invalid('password')"
           />
           @if (invalid('password')) {
-            <p class="error">Use at least 8 characters.</p>
+            <p class="error">Use at least 10 characters with an uppercase letter, a lowercase letter and a digit.</p>
           } @else {
             <p class="hint">Share it with the staff member in person or by phone.</p>
           }

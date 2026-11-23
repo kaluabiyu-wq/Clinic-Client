@@ -13,7 +13,8 @@ export interface BookAppointmentRequest {
   slotTime: string;
   patientName: string;
   phone: string;
-  reason?: string | null;
+  dateOfBirth: string;
+  sex: 'Male' | 'Female';
 }
 
 export interface Appointment {

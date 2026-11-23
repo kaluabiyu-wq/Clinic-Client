@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
+import { SlotDto, toSlot } from '../../core/api/adapters';
 import { ApiService } from '../../core/api/api.service';
 import {
   Appointment, BookForPatientRequest, CheckInResult, CreatePatientRequest,
@@ -23,10 +24,15 @@ export class ReceptionService {
     return this.api.post<Patient>('/patients', request);
   }
   getSlots(doctorId: number, date: string): Observable<Slot[]> {
-    return this.api.get<Slot[]>(`/doctors/${doctorId}/slots`, { date });
+    return this.api
+      .get<SlotDto[]>(`/doctors/${doctorId}/slots`, { date })
+      .pipe(map((list) => list.map(toSlot)));
   }
   book(request: BookForPatientRequest): Observable<Appointment> {
-    return this.api.post<Appointment>('/appointments', request);
+    return this.api.post<Appointment>('/appointments', {
+      ...request,
+      slotTime: request.slotTime.length === 5 ? `${request.slotTime}:00` : request.slotTime,
+    });
   }
   checkIn(appointmentId: number): Observable<CheckInResult> {
     return this.api.post<CheckInResult>(`/appointments/${appointmentId}/check-in`, {});
@@ -36,7 +42,10 @@ export class ReceptionService {
   }
   reschedule(reference: string, newDate: string, newSlotTime: string): Observable<Appointment> {
     return this.api.put<Appointment>(`/appointments/${encodeURIComponent(reference)}/reschedule`,
-      { newDate, newSlotTime });
+      {
+      newDate,
+      newSlotTime: newSlotTime.length === 5 ? `${newSlotTime}:00` : newSlotTime,
+    });
   }
   cancel(reference: string, reason?: string): Observable<Appointment> {
     return this.api.post<Appointment>(`/appointments/${encodeURIComponent(reference)}/cancel`,

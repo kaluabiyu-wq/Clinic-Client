@@ -64,7 +64,7 @@ describe('PatientSearchComponent', () => {
     fixture.nativeElement.querySelector('[role="option"]').click();
 
     expect(picked?.id).toBe('p1');
-    expect(component.open()).toBeFalse();
+    expect(component.open()).toBe(false);
   }));
 
   it('selects with the keyboard', fakeAsync(() => {

@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
+import { ConsultationRoomDto, DoctorDto, toConsultationRoom, toDoctor } from '../../core/api/adapters';
 import { ApiService } from '../../core/api/api.service';
 import { Doctor } from '../../core/models/doctor.models';
 import { ConsultationRoom } from '../../core/models/queue.models';
@@ -11,12 +12,14 @@ export class ConsultationService {
 
  
   getDoctors(): Observable<Doctor[]> {
-    return this.api.get<Doctor[]>('/doctors');
+    return this.api.get<DoctorDto[]>('/doctors').pipe(map((list) => list.map(toDoctor)));
   }
 
   
   getRoom(doctorId: number): Observable<ConsultationRoom> {
-    return this.api.get<ConsultationRoom>(`/doctors/${doctorId}/room`);
+    return this.api
+      .get<ConsultationRoomDto>(`/doctors/${doctorId}/consultation-room`)
+      .pipe(map(toConsultationRoom));
   }
 
  

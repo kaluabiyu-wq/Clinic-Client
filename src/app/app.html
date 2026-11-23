@@ -10,10 +10,12 @@
 
     <div class="nav-caption">WORKSPACE</div>
     <nav class="main-nav" aria-label="Main navigation">
-      <a routerLink="/reception" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-         (click)="closeMobileMenu()">
-        <span class="nav-icon" aria-hidden="true">▦</span><span>Reception</span>
-      </a>
+      @if (canReception()) {
+        <a routerLink="/reception" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+           (click)="closeMobileMenu()">
+          <span class="nav-icon" aria-hidden="true">▦</span><span>Reception</span>
+        </a>
+      }
       <a routerLink="/book" routerLinkActive="active" (click)="closeMobileMenu()">
         <span class="nav-icon" aria-hidden="true">＋</span><span>Book appointment</span>
       </a>
@@ -23,11 +25,14 @@
       <a routerLink="/board" routerLinkActive="active" (click)="closeMobileMenu()">
         <span class="nav-icon" aria-hidden="true">☷</span><span>Queue board</span>
       </a>
-      <a routerLink="/consultation" routerLinkActive="active" (click)="closeMobileMenu()">
-        <span class="nav-icon" aria-hidden="true">♡</span><span>Consultation</span>
-      </a>
+      @if (canConsult()) {
+        <a routerLink="/consultation" routerLinkActive="active" (click)="closeMobileMenu()">
+          <span class="nav-icon" aria-hidden="true">♡</span><span>Consultation</span>
+        </a>
+      }
     </nav>
 
+    @if (isAdmin()) {
     <div class="nav-caption management-caption">MANAGEMENT</div>
     <nav class="main-nav" aria-label="Management navigation">
       <a routerLink="/schedules" routerLinkActive="active" (click)="closeMobileMenu()">
@@ -40,17 +45,25 @@
         <span class="nav-icon" aria-hidden="true">♙</span><span>Staff accounts</span>
       </a>
     </nav>
+    }
 
     <div class="sidebar-bottom">
       <div class="support-card">
         <span class="support-symbol" aria-hidden="true">?</span>
         <div><strong>Need assistance?</strong><small>Contact your system administrator.</small></div>
       </div>
-      <div class="profile">
-        <div class="avatar">RC</div>
-        <div class="profile-copy"><strong>Reception team</strong><small>Clinic staff</small></div>
-        <span class="profile-menu" aria-hidden="true">•••</span>
-      </div>
+      @if (auth.user(); as u) {
+        <div class="profile">
+          <div class="avatar">{{ initials() }}</div>
+          <div class="profile-copy"><strong>{{ u.fullName }}</strong><small>{{ u.role }}</small></div>
+          <button class="profile-menu" type="button" (click)="signOut()" aria-label="Sign out" title="Sign out">⏻</button>
+        </div>
+      } @else {
+        <a class="profile" routerLink="/login" (click)="closeMobileMenu()">
+          <div class="avatar">?</div>
+          <div class="profile-copy"><strong>Staff sign in</strong><small>Not signed in</small></div>
+        </a>
+      }
     </div>
   </aside>
 
@@ -70,7 +83,11 @@
       <div class="topbar-right">
         <span class="system-status"><i></i> System online</span>
         <button class="topbar-icon" type="button" aria-label="Notifications" title="Notifications">♧<b></b></button>
-        <div class="topbar-user"><div class="avatar small-avatar">RC</div><span><strong>Reception</strong><small>Staff account</small></span></div>
+        @if (auth.user(); as u) {
+          <div class="topbar-user"><div class="avatar small-avatar">{{ initials() }}</div><span><strong>{{ u.fullName }}</strong><small>{{ u.role }}</small></span></div>
+        } @else {
+          <a class="topbar-user" routerLink="/login"><div class="avatar small-avatar">?</div><span><strong>Sign in</strong><small>Staff</small></span></a>
+        }
       </div>
     </header>
 

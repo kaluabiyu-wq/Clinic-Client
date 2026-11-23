@@ -1,6 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
+import {
+  DailyReportDto,
+  DoctorDto,
+  WaitReportDto,
+  toDailyReport,
+  toDoctor,
+  toWaitReport,
+} from '../../core/api/adapters';
 
 import { ApiService } from '../../core/api/api.service';
 import { Doctor } from '../../core/models/doctor.models';
@@ -19,15 +27,19 @@ export class ReportsService {
   private readonly http = inject(HttpClient);
 
   getDoctors(): Observable<Doctor[]> {
-    return this.api.get<Doctor[]>('/doctors');
+    return this.api.get<DoctorDto[]>('/doctors').pipe(map((list) => list.map(toDoctor)));
   }
 
   getDaily(filter: ReportFilter): Observable<DailyReport> {
-    return this.api.get<DailyReport>(`/reports/daily?${this.query(filter)}`);
+    return this.api
+      .get<DailyReportDto>(`/reports/daily?${this.query(filter)}`)
+      .pipe(map(toDailyReport));
   }
 
   getWaits(filter: ReportFilter): Observable<WaitReport> {
-    return this.api.get<WaitReport>(`/reports/waits?${this.query(filter)}`);
+    return this.api
+      .get<WaitReportDto>(`/reports/waits?${this.query(filter)}`)
+      .pipe(map(toWaitReport));
   }
 
   getVisitsByHour(filter: ReportFilter): Observable<VisitsByHour[]> {

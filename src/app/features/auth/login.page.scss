@@ -1,0 +1,55 @@
+.login {
+  display: grid;
+  place-items: center;
+  min-height: 60vh;
+  padding: 1rem;
+}
+
+.card {
+  width: 100%;
+  max-width: 24rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.75rem;
+  background: #fff;
+  border: 1px solid #e5e9f0;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.06);
+}
+
+h1 { margin: 0; font-size: 1.5rem; color: #0f172a; }
+.sub { margin: 0 0 0.75rem; color: #64748b; font-size: 0.9rem; }
+label { font-weight: 600; font-size: 0.85rem; color: #334155; margin-top: 0.5rem; }
+
+input {
+  padding: 0.65rem 0.8rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+}
+input:focus { outline: 2px solid #2563eb; outline-offset: 1px; }
+
+.field-error { margin: 0; color: #b91c1c; font-size: 0.8rem; }
+.alert {
+  margin: 0.25rem 0;
+  padding: 0.65rem 0.8rem;
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.primary {
+  margin-top: 1rem;
+  padding: 0.7rem 1rem;
+  background: #2563eb;
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.primary:disabled { opacity: 0.6; cursor: not-allowed; }

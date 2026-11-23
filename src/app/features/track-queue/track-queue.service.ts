@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
+import { TrackQueueDto, toTrackQueue } from '../../core/api/adapters';
 import { ApiService } from '../../core/api/api.service';
 import { TrackQueue } from '../../core/models/queue.models';
 import { PollResult, poll } from '../../shared/utils/polling';
@@ -10,7 +11,9 @@ export class TrackQueueService {
 
   
   track(reference: string): Observable<TrackQueue> {
-    return this.api.get<TrackQueue>(`/queue/track/${encodeURIComponent(reference)}`);
+    return this.api
+      .get<TrackQueueDto>(`/queue/track/${encodeURIComponent(reference)}`)
+      .pipe(map(toTrackQueue));
   }
 
   

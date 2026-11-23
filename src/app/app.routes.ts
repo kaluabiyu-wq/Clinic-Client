@@ -1,9 +1,15 @@
 import { Routes } from '@angular/router';
+import { roleGuard } from './core/auth/auth.guard';
 
 export const routes: Routes = [
   {
+    path: 'login',
+    title: 'Sign in | CarePoint Clinic',
+    loadChildren: () => import('./features/auth/login.routes').then((m) => m.LOGIN_ROUTES),
+  },
+  {
     path: 'reception',
-    title: 'Reception | CarePoint Clinic',
+    canActivate: [roleGuard('Receptionist', 'Administrator')],    title: 'Reception | CarePoint Clinic',
     loadChildren: () =>
       import('./features/reception/reception.routes').then((m) => m.RECEPTION_ROUTES),
   },
@@ -27,25 +33,25 @@ export const routes: Routes = [
   },
   {
     path: 'consultation',
-    title: 'Consultation | CarePoint Clinic',
+    canActivate: [roleGuard('Clinician', 'Administrator')],    title: 'Consultation | CarePoint Clinic',
     loadChildren: () =>
       import('./features/consultation/consultation.routes').then((m) => m.CONSULTATION_ROUTES),
   },
   {
     path: 'schedules',
-    title: 'Doctor schedules | CarePoint Clinic',
+    canActivate: [roleGuard('Administrator')],    title: 'Doctor schedules | CarePoint Clinic',
     loadChildren: () =>
       import('./features/schedules/schedules.routes').then((m) => m.SCHEDULES_ROUTES),
   },
   {
     path: 'reports',
-    title: 'Reports | CarePoint Clinic',
+    canActivate: [roleGuard('Administrator')],    title: 'Reports | CarePoint Clinic',
     loadChildren: () =>
       import('./features/reports/reports.routes').then((m) => m.REPORTS_ROUTES),
   },
   {
     path: 'users',
-    title: 'Staff accounts | CarePoint Clinic',
+    canActivate: [roleGuard('Administrator')],    title: 'Staff accounts | CarePoint Clinic',
     loadChildren: () =>
       import('./features/admin-users/Admin-users.routes').then((m) => m.ADMIN_USERS_ROUTES),
   },

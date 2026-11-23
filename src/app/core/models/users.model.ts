@@ -13,6 +13,7 @@ export interface StaffUser {
   email: string;
   role: StaffRole;
   isActive: boolean;
+  doctorId?: string | null;
 }
 
 
@@ -21,10 +22,13 @@ export interface CreateStaffUser {
   email: string;
   role: StaffRole;
   password: string;
+  doctorId?: string | null;
 }
 
 export interface UpdateStaffUser {
   fullName: string;
   role: StaffRole;
   isActive: boolean;
+  doctorId?: string | null;
+  newPassword?: string | null;
 }

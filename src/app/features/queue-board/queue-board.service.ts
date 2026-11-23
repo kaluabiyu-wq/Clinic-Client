@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
+import { QueueBoardDto, toQueueBoard } from '../../core/api/adapters';
 import { ApiService } from '../../core/api/api.service';
 import { QueueBoard } from '../../core/models/queue.models';
 import { PollResult, poll } from '../../shared/utils/polling';
@@ -10,7 +11,7 @@ export class QueueBoardService {
 
  
   getBoard(): Observable<QueueBoard> {
-    return this.api.get<QueueBoard>('/queue/board');
+    return this.api.get<QueueBoardDto>('/queue/board').pipe(map(toQueueBoard));
   }
 
 

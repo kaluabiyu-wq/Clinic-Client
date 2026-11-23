@@ -61,3 +61,8 @@
   .topbar-user { padding-left:10px; }
   .app-footer { padding:13px; font-size:9px; }
 }
+
+/* Sign-in / sign-out controls in the shell */
+button.profile-menu { background: none; border: 0; cursor: pointer; font-size: 14px; letter-spacing: 0; padding: 4px; }
+button.profile-menu:hover { color: #fff; }
+a.profile, a.topbar-user { text-decoration: none; color: inherit; }

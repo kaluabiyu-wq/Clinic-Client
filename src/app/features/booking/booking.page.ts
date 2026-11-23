@@ -24,6 +24,7 @@ export class BookingPage {
   private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
 
+  protected readonly today = todayIso();
   protected readonly minDate = todayIso();
   protected readonly maxDate = addDaysIso(todayIso(), 60);
   protected readonly label = formatSlotTime;
@@ -48,7 +49,8 @@ export class BookingPage {
     patientName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
     // +2519xxxxxxxx, 2519xxxxxxxx, 09xxxxxxxx, 07xxxxxxxx
     phone: ['', [Validators.required, Validators.pattern(/^(\+251|251|0)?[79]\d{8}$/)]],
-    reason: ['', [Validators.maxLength(300)]],
+    dateOfBirth: ['', [Validators.required]],
+    sex: ['' as '' | 'Male' | 'Female', [Validators.required]],
   });
 
   private readonly formValid = toSignal(
@@ -112,6 +114,13 @@ export class BookingPage {
       });
   }
 
+  /** First validation message from an ASP.NET ValidationProblemDetails body. */
+  private firstProblem(err: HttpErrorResponse): string | null {
+    const errors = err.error?.errors as Record<string, string[]> | undefined;
+    const first = errors ? Object.values(errors).flat()[0] : undefined;
+    return first ?? err.error?.detail ?? err.error?.message ?? null;
+  }
+
   protected onDoctorChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
     this.error.set(null);
@@ -136,7 +145,7 @@ export class BookingPage {
       return;
     }
 
-    const { patientName, phone, reason } = this.form.getRawValue();
+    const { patientName, phone, dateOfBirth, sex } = this.form.getRawValue();
     this.submitting.set(true);
     this.error.set(null);
 
@@ -147,7 +156,8 @@ export class BookingPage {
         slotTime,
         patientName: patientName.trim(),
         phone: phone.trim(),
-        reason: reason.trim() || null,
+        dateOfBirth,
+        sex: sex as 'Male' | 'Female',
       })
       .subscribe({
         next: (appointment) => {
@@ -163,7 +173,7 @@ export class BookingPage {
             this.error.set('Sorry, that slot was just taken. Please choose another time.');
             this.refresh.update((n) => n + 1);
           } else if (err.status === 400 || err.status === 422) {
-            this.error.set(err.error?.detail ?? 'Please check your details and try again.');
+            this.error.set(this.firstProblem(err) ?? 'Please check your details and try again.');
           } else {
             this.error.set('Something went wrong. Please try again.');
           }

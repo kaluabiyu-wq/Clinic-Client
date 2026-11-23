@@ -132,6 +132,7 @@ export class UsersPage implements OnInit {
       email: value.email.trim(),
       role: value.role,
       password: value.password,
+      doctorId: value.role === 'Clinician' ? value.doctorId || null : null,
     };
     this.saving.set(true);
 
@@ -147,7 +148,7 @@ export class UsersPage implements OnInit {
         this.toast.error(
           this.statusOf(err) === 409
             ? 'An account with this email already exists.'
-            : 'Could not create the account. Check the details and try again.',
+            : this.problem(err) ?? 'Could not create the account. Check the details and try again.',
         );
       },
     });
@@ -158,6 +159,7 @@ export class UsersPage implements OnInit {
       fullName: value.fullName.trim(),
       role: value.role,
       isActive: current.isActive,
+      doctorId: value.role === 'Clinician' ? value.doctorId || null : null,
     };
     this.saving.set(true);
 
@@ -189,6 +191,7 @@ export class UsersPage implements OnInit {
       fullName: user.fullName,
       role: user.role,
       isActive: !user.isActive,
+      doctorId: user.doctorId ?? null,
     };
     this.togglingId.set(user.id);
 
@@ -208,6 +211,13 @@ export class UsersPage implements OnInit {
 
   private replace(saved: StaffUser): void {
     this.users.update((list) => list.map((u) => (u.id === saved.id ? saved : u)));
+  }
+
+  /** First message from an ASP.NET validation / domain error body, if any. */
+  private problem(err: unknown): string | null {
+    const body = (err as { error?: { errors?: Record<string, string[]>; message?: string; detail?: string } } | null)?.error;
+    const first = body?.errors ? Object.values(body.errors).flat()[0] : undefined;
+    return first ?? body?.detail ?? body?.message ?? null;
   }
 
   private statusOf(err: unknown): number | undefined {
