@@ -1,3 +1,82 @@
+<div class="app-shell">
+  <aside class="sidebar" [class.sidebar-open]="mobileMenuOpen()">
+    <a class="brand" routerLink="/reception" (click)="closeMobileMenu()" aria-label="Clinic home">
+      <span class="brand-mark" aria-hidden="true">+</span>
+      <span class="brand-copy">
+        <strong>CarePoint</strong>
+        <small>CLINIC MANAGEMENT</small>
+      </span>
+    </a>
 
+    <div class="nav-caption">WORKSPACE</div>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a routerLink="/reception" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+         (click)="closeMobileMenu()">
+        <span class="nav-icon" aria-hidden="true">▦</span><span>Reception</span>
+      </a>
+      <a routerLink="/book" routerLinkActive="active" (click)="closeMobileMenu()">
+        <span class="nav-icon" aria-hidden="true">＋</span><span>Book appointment</span>
+      </a>
+      <a routerLink="/track" routerLinkActive="active" (click)="closeMobileMenu()">
+        <span class="nav-icon" aria-hidden="true">◷</span><span>Track queue</span>
+      </a>
+      <a routerLink="/board" routerLinkActive="active" (click)="closeMobileMenu()">
+        <span class="nav-icon" aria-hidden="true">☷</span><span>Queue board</span>
+      </a>
+      <a routerLink="/consultation" routerLinkActive="active" (click)="closeMobileMenu()">
+        <span class="nav-icon" aria-hidden="true">♡</span><span>Consultation</span>
+      </a>
+    </nav>
 
-<router-outlet />
+    <div class="nav-caption management-caption">MANAGEMENT</div>
+    <nav class="main-nav" aria-label="Management navigation">
+      <a routerLink="/schedules" routerLinkActive="active" (click)="closeMobileMenu()">
+        <span class="nav-icon" aria-hidden="true">▣</span><span>Doctor schedules</span>
+      </a>
+      <a routerLink="/reports" routerLinkActive="active" (click)="closeMobileMenu()">
+        <span class="nav-icon" aria-hidden="true">▤</span><span>Reports</span>
+      </a>
+      <a routerLink="/users" routerLinkActive="active" (click)="closeMobileMenu()">
+        <span class="nav-icon" aria-hidden="true">♙</span><span>Staff accounts</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="support-card">
+        <span class="support-symbol" aria-hidden="true">?</span>
+        <div><strong>Need assistance?</strong><small>Contact your system administrator.</small></div>
+      </div>
+      <div class="profile">
+        <div class="avatar">RC</div>
+        <div class="profile-copy"><strong>Reception team</strong><small>Clinic staff</small></div>
+        <span class="profile-menu" aria-hidden="true">•••</span>
+      </div>
+    </div>
+  </aside>
+
+  @if (mobileMenuOpen()) {
+    <button class="mobile-scrim" type="button" aria-label="Close navigation" (click)="closeMobileMenu()"></button>
+  }
+
+  <div class="main-area">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="mobile-menu-button" type="button" (click)="toggleMobileMenu()"
+                [attr.aria-expanded]="mobileMenuOpen()" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="breadcrumb"><span>Clinic</span><span class="crumb-divider">/</span><strong>Workspace</strong></div>
+      </div>
+      <div class="topbar-right">
+        <span class="system-status"><i></i> System online</span>
+        <button class="topbar-icon" type="button" aria-label="Notifications" title="Notifications">♧<b></b></button>
+        <div class="topbar-user"><div class="avatar small-avatar">RC</div><span><strong>Reception</strong><small>Staff account</small></span></div>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <router-outlet />
+    </main>
+    <footer class="app-footer"><span>© {{ currentYear }} CarePoint Clinic</span><span>Clinic management system</span></footer>
+  </div>
+</div>

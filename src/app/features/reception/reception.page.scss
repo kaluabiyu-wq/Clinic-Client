@@ -1,0 +1,95 @@
+:host { display:block; color:#172033; }
+.reception { max-width:1440px; margin:0 auto; padding:28px; background:#f6f8fb; min-height:100vh; }
+.page-head,.head-actions,.toolbar,.table-head,.queue-ticket { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.page-head { margin-bottom:24px; }
+h1 { font-size:30px; margin:4px 0 6px; letter-spacing:-.8px; }
+h2 { font-size:19px; margin:0; }
+p { margin:0; }
+.eyebrow { color:#64748b; font-size:10px; font-weight:800; letter-spacing:1.4px; }
+.muted,small { color:#718096; }
+.muted { font-size:13px; margin-top:5px; }
+.btn { border:0; border-radius:9px; padding:11px 15px; background:#2563eb; color:white; font-weight:700; cursor:pointer; }
+.btn.dark { background:#172033; }
+.btn.outline { color:#334155; background:white; border:1px solid #dbe2ea; }
+.btn:disabled,.mini:disabled { opacity:.5; cursor:not-allowed; }
+.stats { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:13px; margin-bottom:20px; }
+.stat,.table-card,.toolbar,.queue-ticket { background:white; border:1px solid #e6ebf1; border-radius:13px; }
+.stat { padding:17px; display:flex; flex-direction:column; gap:6px; }
+.stat span { color:#64748b; font-size:12px; font-weight:600; }
+.stat strong { font-size:28px; letter-spacing:-1px; }
+.stat small { font-size:11px; }
+.toolbar { padding:15px; margin-bottom:16px; justify-content:flex-start; flex-wrap:wrap; }
+.toolbar > div { display:flex; flex-direction:column; gap:5px; }
+label { font-size:12px; font-weight:700; color:#475569; display:flex; flex-direction:column; gap:6px; }
+input,select { min-width:0; border:1px solid #d7dee8; background:#fff; border-radius:8px; padding:10px 11px; font:inherit; color:#172033; }
+.toolbar input,.toolbar select { min-width:160px; }
+.toolbar .btn { margin-left:auto; align-self:end; }
+.table-card { overflow:hidden; }
+.table-head { padding:18px 20px; border-bottom:1px solid #edf0f4; }
+.table-scroll { overflow:auto; }
+table { width:100%; border-collapse:collapse; min-width:900px; text-align:left; }
+th { background:#f9fafc; color:#64748b; font-size:11px; text-transform:uppercase; letter-spacing:.5px; }
+th,td { padding:13px 15px; border-bottom:1px solid #edf0f4; white-space:nowrap; font-size:13px; }
+td small { display:block; margin-top:4px; }
+td strong { font-weight:700; }
+.status { display:inline-block; border-radius:20px; padding:5px 9px; font-size:11px; font-weight:700; background:#eff6ff; color:#1d4ed8; }
+.status.waiting { background:#fff7ed; color:#c2410c; }
+.status.serving { background:#f3e8ff; color:#7e22ce; }
+.status.completed { background:#dcfce7; color:#15803d; }
+.status.cancelled,.status.noshow { background:#fee2e2; color:#b91c1c; }
+.actions { display:flex; gap:5px; }
+.mini { border:1px solid #dbe2ea; border-radius:6px; background:white; padding:6px 8px; font-size:11px; font-weight:700; cursor:pointer; }
+.mini.primary { background:#eff6ff; border-color:#bfdbfe; color:#1d4ed8; }
+.mini.danger { color:#b91c1c; }
+.walkin-tag { display:inline-block; color:#7c3aed; background:#f3e8ff; border-radius:5px; padding:3px 5px; }
+.empty { padding:38px 16px; text-align:center; color:#64748b; font-size:13px; }
+.alert { border-radius:9px; padding:12px 14px; margin:12px 0; font-size:13px; }
+.alert.error { background:#fef2f2; border:1px solid #fecaca; color:#991b1b; }
+.alert.success { background:#ecfdf5; border:1px solid #a7f3d0; color:#065f46; }
+.queue-ticket { padding:16px 20px; margin-bottom:16px; border-color:#a7f3d0; background:#f0fdf4; }
+.queue-ticket h2 { font-size:32px; color:#047857; margin:5px 0; }
+.queue-ticket p { font-size:13px; color:#475569; }
+.queue-ticket .wait { display:flex; flex-direction:column; text-align:right; }
+.queue-ticket .wait strong { font-size:22px; }
+.queue-ticket .wait span { font-size:11px; color:#64748b; }
+.icon-btn,.close { border:0; background:transparent; font-size:25px; cursor:pointer; color:#64748b; }
+.backdrop { position:fixed; inset:0; z-index:50; background:#0f172a80; display:grid; place-items:center; padding:18px; overflow:auto; }
+.dialog { width:min(560px,100%); max-height:92vh; overflow:auto; background:white; border-radius:16px; padding:25px; box-shadow:0 24px 70px #0f172a35; position:relative; }
+.dialog.compact { width:min(460px,100%); }
+.dialog h2 { margin:5px 0 18px; font-size:23px; }
+.close { position:absolute; right:17px; top:12px; }
+.dialog form { display:grid; gap:13px; }
+.dialog form .btn { margin-top:5px; }
+.search-row { display:flex; gap:8px; margin-bottom:12px; }
+.search-row input { flex:1; }
+.patient-results { display:grid; gap:6px; max-height:155px; overflow:auto; margin-bottom:12px; }
+.patient-results button { text-align:left; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:9px 11px; cursor:pointer; }
+.patient-results button.selected { border-color:#2563eb; background:#eff6ff; }
+.patient-results small { display:block; margin-top:4px; }
+.selected-note { padding:9px 0; font-size:13px; color:#2563eb; }
+.slots { margin:14px 0; }
+.slots > span { display:block; color:#475569; font-size:12px; font-weight:700; margin-bottom:8px; }
+.slots > div { display:flex; flex-wrap:wrap; gap:7px; }
+.slots button { border:1px solid #dbe2ea; background:white; border-radius:7px; padding:8px 11px; cursor:pointer; }
+.slots button.chosen { background:#2563eb; color:white; border-color:#2563eb; }
+.text-btn { border:0; background:none; color:#2563eb; text-align:left; cursor:pointer; padding:5px 0; }
+@media (max-width:900px) {
+  .reception { padding:18px; }
+  .stats { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .page-head { align-items:flex-start; flex-direction:column; }
+  .head-actions { flex-wrap:wrap; }
+}
+@media (max-width:600px) {
+  .reception { padding:13px; }
+  h1 { font-size:25px; }
+  .stats { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  .stat { padding:13px; }
+  .stat strong { font-size:24px; }
+  .toolbar { align-items:stretch; }
+  .toolbar > div { width:100%; }
+  .toolbar input,.toolbar select { width:100%; }
+  .toolbar .btn { margin:0; width:100%; }
+  .head-actions { width:100%; }
+  .head-actions .btn { flex:1; }
+  .queue-ticket { align-items:flex-start; flex-wrap:wrap; }
+}

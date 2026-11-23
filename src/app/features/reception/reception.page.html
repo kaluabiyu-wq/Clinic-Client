@@ -1,0 +1,135 @@
+<main class="reception">
+  <header class="page-head">
+    <div>
+      <p class="eyebrow">CLINIC OPERATIONS</p>
+      <h1>Reception desk</h1>
+      <p class="muted">Manage today's appointments, patient registration and check-in.</p>
+    </div>
+    <div class="head-actions">
+      <button class="btn outline" type="button" (click)="loadAppointments()">↻ Refresh</button>
+      <button class="btn" type="button" (click)="openPanel('patient')">＋ Register patient</button>
+      <button class="btn dark" type="button" (click)="openPanel('walkin')">＋ Walk-in</button>
+    </div>
+  </header>
+
+  @if (error(); as message) { <div class="alert error" role="alert">{{ message }}</div> }
+  @if (notice(); as message) { <div class="alert success" role="status">{{ message }}</div> }
+
+  <section class="stats">
+    <article class="stat"><span>Appointments</span><strong>{{ counts().total }}</strong><small>Selected date</small></article>
+    <article class="stat"><span>Booked</span><strong>{{ counts().booked }}</strong><small>Awaiting arrival</small></article>
+    <article class="stat"><span>Waiting</span><strong>{{ counts().waiting }}</strong><small>Checked in</small></article>
+    <article class="stat"><span>Serving</span><strong>{{ counts().serving }}</strong><small>In consultation</small></article>
+    <article class="stat"><span>Completed</span><strong>{{ counts().completed }}</strong><small>Finished visits</small></article>
+  </section>
+
+  @if (lastCheckIn(); as checkin) {
+    <section class="queue-ticket" aria-live="polite">
+      <div><span class="eyebrow">CHECK-IN CONFIRMED</span><h2>{{ checkin.queueNo }}</h2><p>{{ checkin.doctorName }} · {{ checkin.peopleAhead }} people ahead</p></div>
+      <div class="wait"><strong>{{ checkin.estimatedWaitMinutes }} min</strong><span>Estimated wait</span></div>
+      <button class="icon-btn" type="button" aria-label="Dismiss queue ticket" (click)="lastCheckIn.set(null)">×</button>
+    </section>
+  }
+
+  <section class="toolbar">
+    <div><label for="dateFilter">Appointment date</label><input id="dateFilter" type="date" [value]="date()" (change)="onDateChange($any($event.target).value)"></div>
+    <div><label for="doctorFilter">Doctor</label><select id="doctorFilter" (change)="onDoctorFilter($any($event.target).value)"><option value="">All doctors</option>@for (d of doctors(); track d.id) { <option [value]="d.id">{{ d.fullName }}</option> }</select></div>
+    <div><label for="statusFilter">Status</label><select id="statusFilter" [value]="statusFilter()" (change)="onStatusFilter($any($event.target).value)"><option>All</option><option>Booked</option><option>Waiting</option><option>Serving</option><option>Completed</option><option>Cancelled</option><option>NoShow</option></select></div>
+    <button class="btn outline" type="button" (click)="openPanel('booking')">＋ Book for patient</button>
+  </section>
+
+  <section class="table-card">
+    <div class="table-head"><div><h2>Appointments</h2><p class="muted">{{ visibleAppointments().length }} records</p></div><span class="muted">{{ date() }}</span></div>
+    @if (loading()) { <div class="empty">Loading appointments…</div> }
+    @else if (visibleAppointments().length === 0) { <div class="empty">No appointments found for these filters.</div> }
+    @else {
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Patient</th><th>Reference</th><th>Doctor</th><th>Time</th><th>Status</th><th>Queue</th><th>Actions</th></tr></thead>
+          <tbody>
+            @for (a of visibleAppointments(); track a.id) {
+              <tr>
+                <td><strong>{{ a.patientName }}</strong><small>{{ a.patientPhone }}</small></td>
+                <td>{{ a.reference }} @if (a.isWalkIn) { <small class="walkin-tag">Walk-in</small> }</td>
+                <td>{{ a.doctorName }}</td>
+                <td>{{ a.slotTime.slice(0,5) }}</td>
+                <td><span class="status" [class]=" 'status ' + statusClass(a.status) ">{{ a.status === 'NoShow' ? 'No-show' : a.status }}</span></td>
+                <td>{{ a.queueNo || '—' }}</td>
+                <td><div class="actions">
+                  @if (a.status === 'Booked') {
+                    <button class="mini primary" type="button" [disabled]="saving()" (click)="checkIn(a)">Check in</button>
+                    <button class="mini" type="button" (click)="startReschedule(a)">Move</button>
+                    <button class="mini danger" type="button" (click)="cancelAppointment(a)">Cancel</button>
+                    <button class="mini" type="button" (click)="noShow(a)">No-show</button>
+                  }
+                </div></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+
+  @if (activePanel() !== 'none') {
+    <div class="backdrop" (click)="closePanel()">
+      <section class="dialog" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+        <button class="close" type="button" (click)="closePanel()">×</button>
+        @if (activePanel() === 'patient') {
+          <p class="eyebrow">PATIENT RECORD</p><h2>Register a patient</h2>
+          <form [formGroup]="patientForm" (ngSubmit)="createPatient()">
+            <label>Full name<input formControlName="fullName" placeholder="Patient full name"></label>
+            <label>Phone number<input formControlName="phoneNumber" placeholder="09xxxxxxxx"></label>
+            <label>Date of birth<input type="date" formControlName="dateOfBirth"></label>
+            <label>Sex<select formControlName="sex"><option value="Male">Male</option><option value="Female">Female</option></select></label>
+            <label>Address (optional)<input formControlName="address" placeholder="Town / kebele"></label>
+            @if (duplicateWarning(); as warning) {
+              <div class="alert error">{{ warning.message }} Please review the possible matches before confirming.</div>
+              <button class="btn" type="button" [disabled]="saving()" (click)="createPatient(true)">This is a different patient — continue</button>
+            } @else { <button class="btn" type="submit" [disabled]="saving()">{{ saving() ? 'Saving…' : 'Register patient' }}</button> }
+          </form>
+        }
+        @if (activePanel() === 'booking') {
+          <p class="eyebrow">APPOINTMENT</p><h2>Book for a patient</h2>
+          <div class="search-row"><input [formControl]="searchForm.controls.query" placeholder="Search patient name or phone"><button class="btn" type="button" (click)="searchPatients()">Search</button></div>
+          @if (patients().length) { <div class="patient-results">@for (p of patients(); track p.id) { <button type="button" [class.selected]="selectedPatient()?.id === p.id" (click)="choosePatient(p)"><strong>{{ p.fullName }}</strong><small>{{ p.phoneNumber }} · {{ p.dateOfBirth }}</small></button> }</div> }
+          @if (selectedPatient(); as p) { <p class="selected-note">Selected: <strong>{{ p.fullName }}</strong></p> }
+          <form [formGroup]="bookingForm">
+            <label>Doctor<select formControlName="doctorId" (change)="loadBookingSlots()"><option [ngValue]="0">Select doctor</option>@for (d of doctors(); track d.id) { <option [ngValue]="d.id">{{ d.fullName }} — {{ d.specialty }}</option> }</select></label>
+            <label>Date<input type="date" formControlName="date" [min]="today" (change)="loadBookingSlots()"></label>
+          </form>
+          @if (slots().length) { <div class="slots"><span>Available slots</span><div>@for (s of slots(); track s.time) { <button type="button" [class.chosen]="selectedSlot() === s.time" (click)="selectedSlot.set(s.time)">{{ s.time.slice(0,5) }}</button> }</div></div> }
+          <button class="btn" type="button" [disabled]="saving() || !selectedPatient() || !selectedSlot()" (click)="bookAppointment()">Confirm appointment</button>
+        }
+        @if (activePanel() === 'walkin') {
+          <p class="eyebrow">SAME-DAY VISIT</p><h2>Register walk-in</h2>
+          <div class="search-row"><input [formControl]="searchForm.controls.query" placeholder="Find existing patient"><button class="btn" type="button" (click)="searchPatients()">Search</button></div>
+          @if (patients().length) { <div class="patient-results">@for (p of patients(); track p.id) { <button type="button" [class.selected]="selectedPatient()?.id === p.id" (click)="choosePatient(p)"><strong>{{ p.fullName }}</strong><small>{{ p.phoneNumber }}</small></button> }</div> }
+          @if (selectedPatient(); as p) { <p class="selected-note">Existing patient: <strong>{{ p.fullName }}</strong></p> }
+          <form [formGroup]="walkInForm">
+            <label>Doctor<select formControlName="doctorId"><option [ngValue]="0">Select doctor</option>@for (d of doctors(); track d.id) { <option [ngValue]="d.id">{{ d.fullName }}</option> }</select></label>
+            @if (!selectedPatient()) {
+              <p class="muted">Or register a new walk-in patient:</p>
+              <label>Full name<input formControlName="fullName"></label><label>Phone<input formControlName="phoneNumber"></label>
+              <label>Date of birth<input type="date" formControlName="dateOfBirth"></label>
+              <label>Sex<select formControlName="sex"><option value="Male">Male</option><option value="Female">Female</option></select></label>
+            } @else { <button class="text-btn" type="button" (click)="selectedPatient.set(null)">Clear selected patient</button> }
+            <button class="btn" type="button" [disabled]="saving()" (click)="submitWalkIn()">Register walk-in & issue queue number</button>
+          </form>
+        }
+      </section>
+    </div>
+  }
+
+  @if (actionAppointment(); as appointment) {
+    <div class="backdrop" (click)="closeAction()">
+      <section class="dialog compact" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+        <button class="close" type="button" (click)="closeAction()">×</button>
+        <p class="eyebrow">RESCHEDULE</p><h2>{{ appointment.patientName }}</h2>
+        <label>New date<input type="date" [value]="rescheduleDate()" [min]="today" (change)="updateRescheduleDate($any($event.target).value)"></label>
+        <div class="slots"><span>Available times</span><div>@for (s of rescheduleSlots(); track s.time) { <button type="button" [class.chosen]="rescheduleSlot() === s.time" (click)="rescheduleSlot.set(s.time)">{{ s.time.slice(0,5) }}</button> }</div></div>
+        <button class="btn" type="button" [disabled]="saving() || !rescheduleSlot()" (click)="confirmReschedule()">Save new appointment time</button>
+      </section>
+    </div>
+  }
+</main>

@@ -1,1 +1,31 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap');
+
+:root {
+  color-scheme: light;
+  --clinic-primary: #2563eb;
+  --clinic-primary-dark: #1d4ed8;
+  --clinic-ink: #172033;
+  --clinic-muted: #718096;
+  --clinic-border: #e6ebf1;
+  --clinic-surface: #ffffff;
+  --clinic-background: #f5f7fb;
+  --clinic-success: #15803d;
+  --clinic-warning: #c2410c;
+  --clinic-danger: #b91c1c;
+  font-family: 'DM Sans', Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+* { box-sizing:border-box; }
+html { min-width:320px; min-height:100%; scroll-behavior:smooth; }
+body { min-width:320px; min-height:100vh; margin:0; background:var(--clinic-background); color:var(--clinic-ink); }
+button,input,select,textarea { font:inherit; }
+button { -webkit-tap-highlight-color:transparent; }
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible {
+  outline:3px solid #93c5fd; outline-offset:2px;
+}
+a { color:inherit; }
+h1,h2,h3,h4 { font-family:'Manrope','DM Sans',Arial,sans-serif; }
+::selection { background:#bfdbfe; color:#172033; }
