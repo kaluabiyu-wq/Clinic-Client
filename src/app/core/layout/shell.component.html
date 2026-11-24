@@ -1,0 +1,94 @@
+<div class="app-shell">
+  <aside class="sidebar" [class.sidebar-open]="mobileMenuOpen()">
+    <a class="brand" [routerLink]="homeLink()" [attr.aria-label]="i18n.t('nav.home')">
+      <img class="brand-logo" src="images/logo.svg" alt="" width="38" height="38" />
+      <span class="brand-copy">
+        <strong>{{ i18n.t('app.name') }}</strong>
+        <small>{{ i18n.t('app.tagline') }}</small>
+      </span>
+    </a>
+
+    <div class="nav-caption">{{ i18n.t('nav.workspace') }}</div>
+    <nav class="main-nav" [attr.aria-label]="i18n.t('nav.main')">
+      @for (link of workspaceLinks(); track link.path) {
+        <a [routerLink]="link.path" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: !!link.exact }">
+          <span class="nav-icon" aria-hidden="true">{{ link.icon }}</span><span>{{ i18n.t(link.labelKey) }}</span>
+        </a>
+      }
+    </nav>
+
+    @if (managementLinks().length > 0) {
+      <div class="nav-caption management-caption">{{ i18n.t('nav.management') }}</div>
+      <nav class="main-nav" [attr.aria-label]="i18n.t('nav.managementLabel')">
+        @for (link of managementLinks(); track link.path) {
+          <a [routerLink]="link.path" routerLinkActive="active">
+            <span class="nav-icon" aria-hidden="true">{{ link.icon }}</span><span>{{ i18n.t(link.labelKey) }}</span>
+          </a>
+        }
+      </nav>
+    }
+
+    <div class="sidebar-bottom">
+      <div class="support-card">
+        <span class="support-symbol" aria-hidden="true">?</span>
+        <div><strong>{{ i18n.t('help.title') }}</strong><small>{{ i18n.t('help.text') }}</small></div>
+      </div>
+      @if (auth.user(); as u) {
+        <div class="profile">
+          <div class="avatar">{{ initials() }}</div>
+          <div class="profile-copy"><strong>{{ u.fullName }}</strong><small>{{ u.role }}</small></div>
+          <button class="profile-menu" type="button" (click)="signOut()"
+                  [attr.aria-label]="i18n.t('user.signOut')" [title]="i18n.t('user.signOut')">⏻</button>
+        </div>
+      } @else {
+        <a class="profile" routerLink="/login">
+          <div class="avatar">?</div>
+          <div class="profile-copy"><strong>{{ i18n.t('user.staffSignIn') }}</strong><small>{{ i18n.t('user.notSignedIn') }}</small></div>
+        </a>
+      }
+    </div>
+  </aside>
+
+  @if (mobileMenuOpen()) {
+    <button class="mobile-scrim" type="button" [attr.aria-label]="i18n.t('nav.close')" (click)="closeMobileMenu()"></button>
+  }
+
+  <div class="main-area">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="mobile-menu-button" type="button" (click)="toggleMobileMenu()"
+                [attr.aria-expanded]="mobileMenuOpen()" [attr.aria-label]="i18n.t('nav.toggle')">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="breadcrumb">
+          <span>{{ i18n.t('app.clinic') }}</span><span class="crumb-divider">/</span><strong>{{ i18n.t('app.workspace') }}</strong>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <span class="system-status"><i></i> {{ i18n.t('app.systemOnline') }}</span>
+
+        <label class="lang-switch">
+          <span class="visually-hidden">{{ i18n.t('language.label') }}</span>
+          <select [value]="i18n.lang()" (change)="onLanguageChange($event)">
+            @for (l of i18n.languages; track l.code) {
+              <option [value]="l.code" [selected]="l.code === i18n.lang()">{{ l.label }}</option>
+            }
+          </select>
+        </label>
+
+        <button class="topbar-icon" type="button" [attr.aria-label]="i18n.t('user.notifications')"
+                [title]="i18n.t('user.notifications')">♧<b></b></button>
+        @if (auth.user(); as u) {
+          <div class="topbar-user"><div class="avatar small-avatar">{{ initials() }}</div><span><strong>{{ u.fullName }}</strong><small>{{ u.role }}</small></span></div>
+        } @else {
+          <a class="topbar-user" routerLink="/login"><div class="avatar small-avatar">?</div><span><strong>{{ i18n.t('user.signIn') }}</strong><small>{{ i18n.t('user.staff') }}</small></span></a>
+        }
+      </div>
+    </header>
+
+    <main class="page-content">
+      <router-outlet />
+    </main>
+    <footer class="app-footer"><span>© {{ currentYear }} {{ i18n.t('app.name') }}</span><span>{{ i18n.t('app.footerSystem') }}</span></footer>
+  </div>
+</div>

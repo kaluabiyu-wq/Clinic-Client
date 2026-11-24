@@ -1,0 +1,62 @@
+{
+  "app": {
+    "name": "ኬርፖይንት",
+    "tagline": "የክሊኒክ አስተዳደር",
+    "footerSystem": "የክሊኒክ አስተዳደር ስርዓት",
+    "systemOnline": "ስርዓቱ በመስመር ላይ ነው",
+    "workspace": "የሥራ ቦታ",
+    "clinic": "ክሊኒክ"
+  },
+  "nav": {
+    "workspace": "የሥራ ቦታ",
+    "management": "አስተዳደር",
+    "main": "ዋና ማውጫ",
+    "managementLabel": "የአስተዳደር ማውጫ",
+    "reception": "መቀበያ",
+    "book": "ቀጠሮ ይያዙ",
+    "track": "ወረፋ ይከታተሉ",
+    "board": "የወረፋ ሰሌዳ",
+    "consultation": "ምርመራ",
+    "schedules": "የሐኪሞች መርሐ ግብር",
+    "reports": "ሪፖርቶች",
+    "users": "የሠራተኞች መለያዎች",
+    "toggle": "ማውጫውን ክፈት/ዝጋ",
+    "close": "ማውጫውን ዝጋ",
+    "home": "ወደ ክሊኒክ መነሻ"
+  },
+  "user": {
+    "signIn": "ግባ",
+    "staffSignIn": "የሠራተኛ መግቢያ",
+    "notSignedIn": "አልገቡም",
+    "staff": "ሠራተኛ",
+    "signOut": "ውጣ",
+    "notifications": "ማሳወቂያዎች"
+  },
+  "help": {
+    "title": "እርዳታ ይፈልጋሉ?",
+    "text": "የስርዓት አስተዳዳሪዎን ያነጋግሩ።"
+  },
+  "language": {
+    "label": "ቋንቋ"
+  },
+  "login": {
+    "title": "የሠራተኛ መግቢያ",
+    "subtitle": "መቀበያውን፣ የምርመራ ክፍሉን ወይም ሪፖርቶችን ለመክፈት የክሊኒክ መለያዎን ይጠቀሙ።",
+    "email": "ኢሜይል",
+    "emailError": "ኢሜይል አድራሻዎን ያስገቡ።",
+    "password": "የይለፍ ቃል",
+    "passwordError": "የይለፍ ቃልዎን ያስገቡ።",
+    "submit": "ግባ",
+    "submitting": "በመግባት ላይ…",
+    "invalid": "ኢሜይሉ ወይም የይለፍ ቃሉ ትክክል አይደለም።",
+    "offline": "አገልጋዩን ማግኘት አልተቻለም። ኤፒአይ እየሰራ መሆኑን ያረጋግጡ።",
+    "failed": "የሆነ ችግር ተፈጥሯል። እባክዎ እንደገና ይሞክሩ።"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "ገጹ አልተገኘም",
+    "text": "የሚፈልጉት ገጽ የለም ወይም ተወስዷል።",
+    "home": "ወደ መነሻ ገጽ ሂድ",
+    "book": "ቀጠሮ ይያዙ"
+  }
+}

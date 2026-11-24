@@ -1,0 +1,62 @@
+{
+  "app": {
+    "name": "CarePoint",
+    "tagline": "CLINIC MANAGEMENT",
+    "footerSystem": "Clinic management system",
+    "systemOnline": "System online",
+    "workspace": "Workspace",
+    "clinic": "Clinic"
+  },
+  "nav": {
+    "workspace": "WORKSPACE",
+    "management": "MANAGEMENT",
+    "main": "Main navigation",
+    "managementLabel": "Management navigation",
+    "reception": "Reception",
+    "book": "Book appointment",
+    "track": "Track queue",
+    "board": "Queue board",
+    "consultation": "Consultation",
+    "schedules": "Doctor schedules",
+    "reports": "Reports",
+    "users": "Staff accounts",
+    "toggle": "Toggle navigation",
+    "close": "Close navigation",
+    "home": "Clinic home"
+  },
+  "user": {
+    "signIn": "Sign in",
+    "staffSignIn": "Staff sign in",
+    "notSignedIn": "Not signed in",
+    "staff": "Staff",
+    "signOut": "Sign out",
+    "notifications": "Notifications"
+  },
+  "help": {
+    "title": "Need assistance?",
+    "text": "Contact your system administrator."
+  },
+  "language": {
+    "label": "Language"
+  },
+  "login": {
+    "title": "Staff sign in",
+    "subtitle": "Use your clinic account to open the reception desk, consultation room or reports.",
+    "email": "Email",
+    "emailError": "Enter your email address.",
+    "password": "Password",
+    "passwordError": "Enter your password.",
+    "submit": "Sign in",
+    "submitting": "Signing in…",
+    "invalid": "Invalid email or password.",
+    "offline": "Cannot reach the server. Check that the API is running.",
+    "failed": "Something went wrong. Please try again."
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Page not found",
+    "text": "The page you are looking for does not exist or has moved.",
+    "home": "Go to the home page",
+    "book": "Book an appointment"
+  }
+}

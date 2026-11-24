@@ -1,12 +1,15 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig, inject, provideAppInitializer, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { authInterceptor } from './core/auth/auth.interceptor';
+import { TranslateService } from './core/i18n/translate.service';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
+    // Load the saved language (and the English fallback) before the first screen renders.
+    provideAppInitializer(() => inject(TranslateService).init()),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideRouter(
       routes,

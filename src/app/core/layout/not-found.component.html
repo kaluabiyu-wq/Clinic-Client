@@ -1,0 +1,9 @@
+<main class="not-found">
+  <p class="code" aria-hidden="true">{{ i18n.t('notFound.code') }}</p>
+  <h1>{{ i18n.t('notFound.title') }}</h1>
+  <p class="text">{{ i18n.t('notFound.text') }}</p>
+  <div class="actions">
+    <a class="primary" [routerLink]="homeLink()">{{ i18n.t('notFound.home') }}</a>
+    <a class="secondary" routerLink="/book">{{ i18n.t('notFound.book') }}</a>
+  </div>
+</main>
