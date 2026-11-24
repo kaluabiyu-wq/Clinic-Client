@@ -1,20 +1,21 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { StaffRole } from '../models/users.model';
 import { AuthService } from './auth.service';
 
-/** Requires sign-in, and (optionally) one of the given roles. */
-export function roleGuard(...roles: StaffRole[]): CanActivateFn {
-  return (_route, state) => {
-    const auth = inject(AuthService);
-    const router = inject(Router);
+/** Route needs a signed-in user (any role). Otherwise go to /login and come back afterwards. */
+export const authGuard: CanActivateFn = (_route, state) => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
 
-    if (!auth.isAuthenticated()) {
-      return router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } });
-    }
-    if (roles.length > 0 && !auth.hasRole(...roles)) {
-      return router.parseUrl(auth.homeFor(auth.role()));
-    }
-    return true;
-  };
-}
+  return auth.isAuthenticated()
+    ? true
+    : router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } });
+};
+
+/** For /login: someone already signed in is sent to their home page instead. */
+export const guestGuard: CanActivateFn = () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+
+  return auth.isAuthenticated() ? router.parseUrl(auth.homeFor(auth.role())) : true;
+};

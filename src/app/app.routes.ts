@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
-import { roleGuard } from './core/auth/auth.guard';
+import { guestGuard } from './core/auth/auth.guard';
+import { roleGuard } from './core/auth/role.guard';
 import { AuthService } from './core/auth/auth.service';
 
 /**
@@ -14,6 +15,7 @@ import { AuthService } from './core/auth/auth.service';
 export const routes: Routes = [
   {
     path: 'login',
+    canActivate: [guestGuard],
     title: 'Sign in | CarePoint Clinic',
     loadComponent: () => import('./core/layout/login.component').then((m) => m.LoginComponent),
   },

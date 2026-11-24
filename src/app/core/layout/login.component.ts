@@ -30,11 +30,6 @@ export class LoginComponent {
     password: ['', [Validators.required]],
   });
 
-  constructor() {
-    if (this.auth.isAuthenticated()) {
-      void this.router.navigateByUrl(this.auth.homeFor(this.auth.role()));
-    }
-  }
 
   protected submit(): void {
     if (this.form.invalid || this.submitting()) {
